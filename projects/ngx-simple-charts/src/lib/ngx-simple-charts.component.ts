@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'lib-ngx-simple-charts',
-  template: `
-    <p>
-      ngx-simple-charts works!
-    </p>
-  `,
-  styles: [
-  ]
+  selector: 'ngx-simple-charts',
+  templateUrl: './ngx-simple-charts.component.html',
+  styleUrls: ['./ngx-simple-charts.component.scss'],
 })
 export class NgxSimpleChartsComponent implements OnInit {
 

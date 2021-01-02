@@ -3,5 +3,48 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "ngx-simple-charts": {
+      "projectType": "library",
+      "root": "projects/ngx-simple-charts",
+      "sourceRoot": "projects/ngx-simple-charts/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/ngx-simple-charts/tsconfig.lib.json",
+            "project": "projects/ngx-simple-charts/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-simple-charts/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-simple-charts/src/test.ts",
+            "tsConfig": "projects/ngx-simple-charts/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-simple-charts/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-simple-charts/tsconfig.lib.json",
+              "projects/ngx-simple-charts/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }},
+  "cli": {
+    "analytics": "fcdd0a54-3ae8-4c46-b905-9b032bc661e9"
+  },
+  "defaultProject": "ngx-simple-charts"
 }

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { NgxSimpleChartsComponent } from './ngx-simple-charts.component';
+import { ScLineChartComponent } from './sc-line-chart/sc-line-chart.component';
 
 
 
 @NgModule({
-  declarations: [NgxSimpleChartsComponent],
+  declarations: [ScLineChartComponent],
   imports: [
   ],
-  exports: [NgxSimpleChartsComponent]
+  exports: [ScLineChartComponent]
 })
 export class NgxSimpleChartsModule { }

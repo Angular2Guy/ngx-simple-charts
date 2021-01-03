@@ -12,11 +12,13 @@
  */
 import { NgModule } from '@angular/core';
 import { ScLineChartComponent } from './sc-line-chart/sc-line-chart.component';
+import { NgxSimpleChartsService } from './service/ngx-simple-charts.service';
 
 @NgModule({
   declarations: [ScLineChartComponent],
   imports: [
   ],
-  exports: [ScLineChartComponent]
+  exports: [ScLineChartComponent],
+  providers: [NgxSimpleChartsService]
 })
 export class NgxSimpleChartsModule { }

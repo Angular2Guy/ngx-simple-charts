@@ -10,7 +10,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { select, Selection, ContainerElement } from 'd3-selection';
 import { ChartPoint } from '../model/chart-point';
 
@@ -23,9 +23,14 @@ export class ScLineChartComponent implements OnInit {
   @ViewChild("svgchart")
   private chartContainer!: ElementRef;
   private d3Svg!: Selection<ContainerElement, ChartPoint, HTMLElement, any>;  
+  @Input()
+  private chartPoints: ChartPoint[] = [];
 
   ngOnInit(): void {
 	this.d3Svg = select<ContainerElement,ChartPoint>(this.chartContainer.nativeElement);
+	this.d3Svg.attr("fill", "none")
+				.attr("stroke-linejoin","round")
+				.attr("stroke-linecap","round");
   }
 
 }

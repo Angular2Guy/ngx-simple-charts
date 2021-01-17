@@ -36,7 +36,7 @@ export class ScLineChartComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {    
-    if(!!changes['chartPoints']) {
+    if(!!changes['chartPoints'] && !changes['chartPoints'].isFirstChange()) {
 		this.updateChart();
     }
   }
@@ -44,6 +44,18 @@ export class ScLineChartComponent implements OnInit, OnChanges {
   private updateChart(): void {
 	const contentWidth = isNaN(parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10)) ? 0 : parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10);
     const contentHeight = isNaN(parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10)) ? 0 : parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10);
-
+	if(contentHeight < 1 || contentWidth < 1) {
+		return;
+	}
+	const chartPointsLength = this.chartPoints.length < 2 ? 2 : this.chartPoints.length;
+	
+	const xScale = scaleLinear()
+      .domain([0, chartPointsLength - 1]) // input
+      .range([0, contentWidth]);
+	const ymin = Math.min(... this.chartPoints.map(chartPoint => chartPoint.y));
+	const ymax = Math.max(... this.chartPoints.map(chartPoint => chartPoint.y));
+	const yScale = scaleLinear()
+      .domain([ymin, ymax]) // input
+      .range([0, contentWidth]);
   }
 }

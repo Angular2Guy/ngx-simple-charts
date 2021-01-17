@@ -22,7 +22,7 @@ import { axisBottom, axisLeft } from 'd3-axis';
 	selector: 'sc-line-chart',
 	templateUrl: './sc-line-chart.component.html',
 	styleUrls: ['./sc-line-chart.component.scss'],
-	encapsulation: ViewEncapsulation.ShadowDom,
+	encapsulation: ViewEncapsulation.Emulated,
 })
 export class ScLineChartComponent implements OnInit, OnChanges {
 	@ViewChild("svgchart")
@@ -31,11 +31,20 @@ export class ScLineChartComponent implements OnInit, OnChanges {
 	@Input()
 	private chartPoints: ChartPoint[] = [];
 	private gAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
+	private gxAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
+	private gyAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
+	private gPathAttribute!: Selection<SVGPathElement, ChartPoint, HTMLElement, any>;
 
 	ngOnInit(): void {
 		this.d3Svg = select<ContainerElement, ChartPoint>(this.chartContainer.nativeElement);
 
 		this.gAttribute = this.d3Svg.append('g').attr('transform', 'translate(0,0)');
+		this.gxAttribute = this.gAttribute.append('gx');
+		this.gxAttribute = this.gxAttribute.attr('class', 'x axis');
+		this.gyAttribute = this.gAttribute.append('gy');
+		this.gyAttribute = this.gyAttribute.attr('class', 'y axis');
+		this.gPathAttribute = this.gAttribute.append('path');
+
 		this.updateChart();
 	}
 
@@ -69,24 +78,22 @@ export class ScLineChartComponent implements OnInit, OnChanges {
 			.range([0, contentWidth]);
 
 		const myLine = line()
-			.defined(p => !isNaN((p as unknown as ChartPoint).y))
+			.defined(p => (p as unknown as ChartPoint).y !== null && !isNaN((p as unknown as ChartPoint).y))
 			.x((p, i) => xScale(i))
 			.y((p) => yScale((p as unknown as ChartPoint).y))
-			.curve((p) => curveMonotoneX(p))
+			.curve((p) => curveMonotoneX(p));
 
-		const gxElement: Selection<SVGGElement, ChartPoint, HTMLElement, any> = 
-			!this.gAttribute.select('gx') ? this.gAttribute.append('gx') : this.gAttribute.select('gx');
-		gxElement
-			.attr("class", "x axis")
+		this.gxAttribute
 			.attr("transform", "translate(" + 0 + "," + contentWidth + ")")
 			.call(axisBottom(xScale));
 
-		const gyElement: Selection<SVGGElement, ChartPoint, HTMLElement, any> = 
-			!this.gAttribute.select('gy') ? this.gAttribute.append('gy') : this.gAttribute.select('gy');
-		gyElement
-			.attr("class", "y axis")
+		this.gyAttribute
 			.attr("transform", "translate(" + 0 + "," + contentHeight + ")")
 			.call(axisLeft(yScale));
 
+		this.gPathAttribute.datum(this.chartPoints.filter((p) => p.y !== null && !isNaN(p.y)))
+			.attr('class', 'line').attr('d', myLine as any);
+		this.gPathAttribute.datum(this.chartPoints.filter((p) => isNaN(p.y) || p.y === null))
+			.attr('class', 'line').attr('d', myLine as any);
 	}
 }

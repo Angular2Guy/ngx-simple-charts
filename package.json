@@ -28,6 +28,7 @@
     "d3-shape": "^2.0.0",
     "d3-time-format": "^3.0.0",
     "d3-transition": "^2.0.0",
+    "d3-axis": "^2.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
@@ -47,6 +48,7 @@
     "@types/d3-time-format": "^3.0.0",
     "@types/d3-transition": "^2.0.0",
     "@types/jasmine": "~3.6.0",
+    "@types/d3-axis": "^2.0.0",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",

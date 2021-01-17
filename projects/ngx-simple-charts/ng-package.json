@@ -13,7 +13,8 @@
       "d3-selection": "d3-selection",
       "d3-shape": "d3-shape",
       "d3-time-format": "d3-time-format",
-      "d3-transition": "d3-transition"
+      "d3-transition": "d3-transition",
+      "d3-axis": "d3-axis"
     }
   }
 }

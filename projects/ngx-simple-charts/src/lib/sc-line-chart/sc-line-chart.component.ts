@@ -10,61 +10,83 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Component, OnInit, ViewChild, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { select, Selection, ContainerElement } from 'd3-selection';
 import { ChartPoint } from '../model/chart-point';
-import { scaleLinear, scaleTime } from 'd3-scale';
+import { scaleLinear, scaleTime, ScaleLinear, ScaleTime } from 'd3-scale';
 import { extent } from 'd3-array';
+import { line, curveMonotoneX } from 'd3-shape';
+import { axisBottom, axisLeft } from 'd3-axis';
 
 @Component({
-  selector: 'sc-line-chart',
-  templateUrl: './sc-line-chart.component.html',
-  styleUrls: ['./sc-line-chart.component.scss'],
+	selector: 'sc-line-chart',
+	templateUrl: './sc-line-chart.component.html',
+	styleUrls: ['./sc-line-chart.component.scss'],
+	encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class ScLineChartComponent implements OnInit, OnChanges {
-  @ViewChild("svgchart")
-  private chartContainer!: ElementRef;
-  private d3Svg!: Selection<ContainerElement, ChartPoint, HTMLElement, any>;  
-  @Input()
-  private chartPoints: ChartPoint[] = [];
-  private gAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
+	@ViewChild("svgchart")
+	private chartContainer!: ElementRef;
+	private d3Svg!: Selection<ContainerElement, ChartPoint, HTMLElement, any>;
+	@Input()
+	private chartPoints: ChartPoint[] = [];
+	private gAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
 
-  ngOnInit(): void {
-	this.d3Svg = select<ContainerElement,ChartPoint>(this.chartContainer.nativeElement);	
+	ngOnInit(): void {
+		this.d3Svg = select<ContainerElement, ChartPoint>(this.chartContainer.nativeElement);
 
-    this.gAttribute = this.d3Svg.append('g').attr('transform', 'translate(0,0)');	
-	this.updateChart();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {    
-    if(!!changes['chartPoints'] && !changes['chartPoints'].isFirstChange()) {
+		this.gAttribute = this.d3Svg.append('g').attr('transform', 'translate(0,0)');
 		this.updateChart();
-    }
-  }
-
-  private updateChart(): void {
-	const contentWidth = isNaN(parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10)) ? 0 : parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10);
-    const contentHeight = isNaN(parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10)) ? 0 : parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10);
-	if(contentHeight < 1 || contentWidth < 1 && this.chartPoints.length > 0) {
-		console.log(`contentHeight: ${contentHeight} contentWidth: ${contentWidth} chartPoints: ${this.chartPoints.length}`);
-		return;
 	}
-	
-	let xScale = null;
-	if(this.chartPoints.length > 0 && this.chartPoints[0].x instanceof Date) {
-		xScale = scaleTime()
-    				.domain(extent(this.chartPoints, p => p.x as Date) as [Date, Date])
-    				.range([0, contentWidth])	
-	} else {
-		xScale = scaleLinear()
-					.domain([0, this.chartPoints.length -1]).nice()
-      				.range([0, contentWidth]);	
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (!!changes['chartPoints'] && !changes['chartPoints'].isFirstChange()) {
+			this.updateChart();
+		}
 	}
-		
-	const yScale = scaleLinear()
-      .domain(extent<ChartPoint,number>(this.chartPoints, p => p.y) as [number,number]).nice()
-      .range([0, contentWidth]);
 
+	private updateChart(): void {
+		const contentWidth = isNaN(parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10)) ? 0 : parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10);
+		const contentHeight = isNaN(parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10)) ? 0 : parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10);
+		if (contentHeight < 1 || contentWidth < 1 && this.chartPoints.length > 0) {
+			console.log(`contentHeight: ${contentHeight} contentWidth: ${contentWidth} chartPoints: ${this.chartPoints.length}`);
+			return;
+		}
 
-  }
+		let xScale: ScaleLinear<number, number, never> | ScaleTime<number, number, never>;
+		if (this.chartPoints.length > 0 && this.chartPoints[0].x instanceof Date) {
+			xScale = scaleTime()
+				.domain(extent(this.chartPoints, p => p.x as Date) as [Date, Date])
+				.range([0, contentWidth])
+		} else {
+			xScale = scaleLinear()
+				.domain([0, this.chartPoints.length - 1]).nice()
+				.range([0, contentWidth]);
+		}
+
+		const yScale = scaleLinear()
+			.domain(extent<ChartPoint, number>(this.chartPoints, p => p.y) as [number, number]).nice()
+			.range([0, contentWidth]);
+
+		const myLine = line()
+			.defined(p => !isNaN((p as unknown as ChartPoint).y))
+			.x((p, i) => xScale(i))
+			.y((p) => yScale((p as unknown as ChartPoint).y))
+			.curve((p) => curveMonotoneX(p))
+
+		const gxElement: Selection<SVGGElement, ChartPoint, HTMLElement, any> = 
+			!this.gAttribute.select('gx') ? this.gAttribute.append('gx') : this.gAttribute.select('gx');
+		gxElement
+			.attr("class", "x axis")
+			.attr("transform", "translate(" + 0 + "," + contentWidth + ")")
+			.call(axisBottom(xScale));
+
+		const gyElement: Selection<SVGGElement, ChartPoint, HTMLElement, any> = 
+			!this.gAttribute.select('gy') ? this.gAttribute.append('gy') : this.gAttribute.select('gy');
+		gyElement
+			.attr("class", "y axis")
+			.attr("transform", "translate(" + 0 + "," + contentHeight + ")")
+			.call(axisLeft(yScale));
+
+	}
 }

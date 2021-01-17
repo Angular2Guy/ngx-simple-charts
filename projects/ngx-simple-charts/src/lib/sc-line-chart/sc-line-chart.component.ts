@@ -13,7 +13,8 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { select, Selection, ContainerElement } from 'd3-selection';
 import { ChartPoint } from '../model/chart-point';
-import { scaleLinear } from 'd3-scale';
+import { scaleLinear, scaleTime } from 'd3-scale';
+import { extent } from 'd3-array';
 
 @Component({
   selector: 'sc-line-chart',
@@ -44,18 +45,26 @@ export class ScLineChartComponent implements OnInit, OnChanges {
   private updateChart(): void {
 	const contentWidth = isNaN(parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10)) ? 0 : parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10);
     const contentHeight = isNaN(parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10)) ? 0 : parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10);
-	if(contentHeight < 1 || contentWidth < 1) {
+	if(contentHeight < 1 || contentWidth < 1 && this.chartPoints.length > 0) {
+		console.log(`contentHeight: ${contentHeight} contentWidth: ${contentWidth} chartPoints: ${this.chartPoints.length}`);
 		return;
 	}
-	const chartPointsLength = this.chartPoints.length < 2 ? 2 : this.chartPoints.length;
 	
-	const xScale = scaleLinear()
-      .domain([0, chartPointsLength - 1]) // input
-      .range([0, contentWidth]);
-	const ymin = Math.min(... this.chartPoints.map(chartPoint => chartPoint.y));
-	const ymax = Math.max(... this.chartPoints.map(chartPoint => chartPoint.y));
+	let xScale = null;
+	if(this.chartPoints.length > 0 && this.chartPoints[0].x instanceof Date) {
+		xScale = scaleTime()
+    				.domain(extent(this.chartPoints, p => p.x as Date) as [Date, Date])
+    				.range([0, contentWidth])	
+	} else {
+		xScale = scaleLinear()
+					.domain([0, this.chartPoints.length -1]).nice()
+      				.range([0, contentWidth]);	
+	}
+		
 	const yScale = scaleLinear()
-      .domain([ymin, ymax]) // input
+      .domain(extent<ChartPoint,number>(this.chartPoints, p => p.y) as [number,number]).nice()
       .range([0, contentWidth]);
+
+
   }
 }

@@ -12,5 +12,5 @@
  */
 export interface ChartPoint{
 	y: number;
-	x: string;
+	x: string | Date;
 }

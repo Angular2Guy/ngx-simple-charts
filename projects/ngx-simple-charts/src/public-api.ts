@@ -17,3 +17,4 @@
 export * from './lib/service/ngx-simple-charts.service';
 export * from './lib/sc-line-chart/sc-line-chart.component';
 export * from './lib/ngx-simple-charts.module';
+export * from './lib/model/chart-point';

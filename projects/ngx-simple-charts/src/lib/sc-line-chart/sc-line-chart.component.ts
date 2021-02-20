@@ -54,11 +54,18 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges {
 	}
 
 	private updateChart(): void {
-		const contentWidth = isNaN(parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10)) ? 0 : parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10);
-		const contentHeight = isNaN(parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10)) ? 0 : parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10);
+		const contentWidth = isNaN(parseInt(this.d3Svg.style('width')
+			.replace(/[^0-9\.]+/g, ''), 10)) ? 
+			0 : parseInt(this.d3Svg.style('width')
+			.replace(/[^0-9\.]+/g, ''), 10);
+		const contentHeight = isNaN(parseInt(this.d3Svg.style('height')
+			.replace(/[^0-9\.]+/g, ''), 10)) ? 
+			0 : parseInt(this.d3Svg.style('height')
+			.replace(/[^0-9\.]+/g, ''), 10);
 		this.d3Svg.attr("viewBox", [0, 0, contentWidth, contentHeight] as any)
-		if (contentHeight < 1 || contentWidth < 1 || !this.chartPoints || this.chartPoints.length === 0 
-			|| !this.chartPoints[0].chartPointList || this.chartPoints[0].chartPointList.length === 0) {
+		if (contentHeight < 1 || contentWidth < 1 || !this.chartPoints 
+			|| this.chartPoints.length === 0 || !this.chartPoints[0].chartPointList 
+			|| this.chartPoints[0].chartPointList.length === 0) {
 			console.log(`contentHeight: ${contentHeight} contentWidth: ${contentWidth} chartPoints: ${this.chartPoints.length}`);
 			return;
 		}
@@ -83,7 +90,8 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges {
 
 		const myLine = line()
 			.defined(p => (p as unknown as ChartPoint).y !== null && !isNaN((p as unknown as ChartPoint).y))
-			.x((p,i) => xScale((p as unknown as ChartPoint).x instanceof Date ? (p as unknown as ChartPoint).x as Date: i))
+			.x((p,i) => xScale((p as unknown as ChartPoint).x instanceof Date ? 
+				(p as unknown as ChartPoint).x as Date: i))
 			.y((p) => yScale((p as unknown as ChartPoint).y))
 			.curve((p) => curveMonotoneX(p));
 		
@@ -93,7 +101,8 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges {
 			.attr('class', 'line').attr('d', myLine as any);
 
 		this.gxAttribute
-			.attr("transform", "translate(" + (this.chartPoints[0].yScaleWidth) + "," + (contentHeight - this.chartPoints[0].xScaleHeight) + ")")
+			.attr("transform", "translate(" + (this.chartPoints[0].yScaleWidth) + "," 
+				+ (contentHeight - this.chartPoints[0].xScaleHeight) + ")")
 			.call(axisBottom(xScale));
 
 		this.gyAttribute

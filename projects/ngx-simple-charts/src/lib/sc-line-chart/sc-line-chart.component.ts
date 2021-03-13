@@ -27,9 +27,9 @@ import { ChartPoints, ChartPoint } from '../model/chart-points';
 export class ScLineChartComponent implements AfterViewInit, OnChanges {
 	@ViewChild("svgchart", {static: true})
 	private chartContainer!: ElementRef;
-	private d3Svg!: Selection<ContainerElement, ChartPoint, HTMLElement, any>;
+	d3Svg!: Selection<ContainerElement, ChartPoint, HTMLElement, any>;
 	@Input()
-	private chartPoints: ChartPoints[] = [];
+	chartPoints: ChartPoints[] = [];
 	private gAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
 	private gxAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
 	private gyAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;

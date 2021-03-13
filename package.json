@@ -1,14 +1,16 @@
 {
   "name": "ngx-simple-charts",
   "version": "0.0.3",
-  "license" : "Apache License Version 2.0",
+  "license": "Apache License Version 2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-	"build-watch": "ng build --watch",
+    "build-watch": "ng build --watch",
     "build-prod": "ng build --configuration=production",
-    "test": "ng test",
+    "test": "ng test --browsers ChromeHeadless --watch=false",
+	"test-chromium": "ng test --browsers ChromiumHeadless --watch=false",
+    "test-watch-local": "ng test --browsers ChromiumHeadless --watch=true",
     "lint": "ng lint"
   },
   "private": false,

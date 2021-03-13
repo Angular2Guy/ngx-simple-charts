@@ -12,22 +12,23 @@
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-/*import { NgxSimpleChartsComponent } from './ngx-simple-charts.component';
+import { ScLineChartComponent } from './sc-line-chart.component';
+
 describe('NgxSimpleChartsComponent', () => {
-  let component: NgxSimpleChartsComponent;
-  let fixture: ComponentFixture<NgxSimpleChartsComponent>;
+  let component: ScLineChartComponent;
+  let fixture: ComponentFixture<ScLineChartComponent>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NgxSimpleChartsComponent ]
+      declarations: [ ScLineChartComponent ]
     })
     .compileComponents();
   });
   beforeEach(() => {
-    fixture = TestBed.createComponent(NgxSimpleChartsComponent);
+    fixture = TestBed.createComponent(ScLineChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});*/
+});

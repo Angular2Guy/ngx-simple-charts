@@ -1,24 +1,15 @@
 # NgxSimpleCharts
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.5.
+This is a small chart library for Angular based on D3js. It currently supports line charts. Its purpose is to enable fast updates to new Angular versions. To enable the fast updates and due to limited time the library will continue have a small feature set. 
 
-## Code scaffolding
+## Line Charts
+To use the line chart component this module has to be imported: [NgxSimpleChartsModule](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/src/lib/ngx-simple-charts.module.ts)
 
-Run `ng generate component component-name --project ngx-simple-charts` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-simple-charts`.
-> Note: Don't forget to add `--project ngx-simple-charts` or else it will be added to the default project in your `angular.json` file. 
+Then the component can be used: [<sc-line-chart [chartPoints]="..."></sc-line-chart>](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/src/lib/sc-line-chart/sc-line-chart.component.ts) 
 
-## Build
+The interface for the chartPoints can be found here: [ChartPoints](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/src/lib/model/chart-points.ts)
 
-Run `ng build ngx-simple-charts` to build the project. The build artifacts will be stored in the `dist/` directory.
+To enable some styling of the chart these classes can be used: [Component.scss](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/src/lib/sc-line-chart/sc-line-chart.component.scss)
 
-## Publishing
-
-After building your library with `ng build ngx-simple-charts`, go to the dist folder `cd dist/ngx-simple-charts` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test ngx-simple-charts` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Some time in the future
+There might Bar Charts be added at some time in the future. For more features pull requests are welcome.

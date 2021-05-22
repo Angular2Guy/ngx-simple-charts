@@ -17,5 +17,5 @@
       "d3-axis": "d3-axis"
     }
   },
-  "whitelistedNonPeerDependencies": ["d3"]
+  "allowedNonPeerDependencies": ["d3"]
 }

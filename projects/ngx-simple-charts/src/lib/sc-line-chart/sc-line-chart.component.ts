@@ -10,13 +10,19 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Component, ViewChild, ElementRef, Input, OnChanges, SimpleChanges, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input, OnChanges, SimpleChanges, ViewEncapsulation, AfterViewInit, HostListener, OnDestroy } from '@angular/core';
 import { select, Selection, ContainerElement } from 'd3-selection';
 import { scaleLinear, scaleTime, ScaleLinear, ScaleTime } from 'd3-scale';
 import { extent } from 'd3-array';
 import { line, curveMonotoneX } from 'd3-shape';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { ChartPoints, ChartPoint } from '../model/chart-points';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+
+interface ResizeEvent {
+	type: string;
+}
 
 @Component({
 	selector: 'sc-line-chart',
@@ -24,13 +30,14 @@ import { ChartPoints, ChartPoint } from '../model/chart-points';
 	styleUrls: ['./sc-line-chart.component.scss'],
 	encapsulation: ViewEncapsulation.Emulated,
 })
-export class ScLineChartComponent implements AfterViewInit, OnChanges {
+export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy {    
 	@ViewChild("svgchart", {static: true})
 	private chartContainer!: ElementRef;
 	d3Svg!: Selection<ContainerElement, ChartPoint, HTMLElement, any>;
 	@Input()
 	chartPoints: ChartPoints[] = [];
-	private gAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
+	private chartUpdateSubject = new Subject();
+	private chartUpdateSubscription!: Subscription;
 	private gxAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
 	private gyAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
 	private gPathAttribute!: Selection<SVGPathElement, ChartPoint, HTMLElement, any>;
@@ -43,14 +50,24 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges {
 		this.gyAttribute = this.d3Svg.append('g');
 		this.gyAttribute = this.gyAttribute.attr('class', 'y axis');
 		this.gPathAttribute = this.d3Svg.append('path');
-
-		this.updateChart();
+		this.chartUpdateSubscription = this.chartUpdateSubject.pipe(debounceTime(100)).subscribe(() => this.updateChart());	
+		this.chartUpdateSubject.next({});	
 	}
+
+	ngOnDestroy(): void {
+		this.chartUpdateSubject.complete();
+        this.chartUpdateSubscription.unsubscribe();
+    }
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (!!changes['chartPoints'] && !changes['chartPoints'].isFirstChange()) {
-			this.updateChart();
+			this.chartUpdateSubject.next({});
 		}
+	}
+	
+	@HostListener('window:resize', ['$event'])
+	onResize(event: ResizeEvent): void {
+		this.chartUpdateSubject.next({});
 	}
 
 	private updateChart(): void {

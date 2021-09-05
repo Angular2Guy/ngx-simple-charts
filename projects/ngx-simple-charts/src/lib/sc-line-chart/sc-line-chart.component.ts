@@ -123,7 +123,7 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 			.join('path')
 			.style("mix-blend-mode", "multiply")
 			.attr("d", (d,i) => 
-				this.createLine(xScale, yScale).bind(d[i]) as any);
+				this.createLine(xScale, yScale).apply(this, d[i] as any) as any);
 			
 		this.updateScales(contentHeight, xScale, yScale);
 	}

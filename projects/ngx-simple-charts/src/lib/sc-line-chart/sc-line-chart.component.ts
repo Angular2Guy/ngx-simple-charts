@@ -29,12 +29,6 @@ interface MultiLineSeries {
 	values: number[];
 }
 
-interface MultiLineData {
-	y: string;
-	series: MultiLineSeries[];
-	xValues: string | Date;
-}
-
 @Component({
 	selector: 'sc-line-chart',
 	templateUrl: './sc-line-chart.component.html',
@@ -123,21 +117,20 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 			.domain(extent<ChartPoint, number>(yScaleValues, p => p.y) as [number, number]).nice()
 			.range([contentHeight - this.chartPoints[0].xScaleHeight, 0]);
 
-		const myLine = this.updateScalesLine(contentHeight, xScale, yScale);
-
-		/*this.d3Svg.append('g')
+		this.d3Svg.append('g')
 			.selectAll('path')
-			.datum(this.chartPoints.map(myChartPoints => {name: myChartPoints.name, values: myChartPoints.chartPointList.map(myChartPoint => myChartPoint.y)}))
+			.datum(this.chartPoints)
 			.join('path')
 			.style("mix-blend-mode", "multiply")
-			.attr("d", d => line(d.values));*/
+			.attr("d", (d,i) => 
+				this.createLine(xScale, yScale).bind(d[i]) as any);
 			
-		
+		this.updateScales(contentHeight, xScale, yScale);
 	}
 
-	private updateScalesLine(contentHeight: number,  
+	private updateScales(contentHeight: number,  
 		xScale: ScaleTime<number, number, never> | ScaleLinear<number, number, never>, 
-		yScale: ScaleLinear<number, number, never>): Line<[number, number]> {
+		yScale: ScaleLinear<number, number, never>): void {
 		this.gxAttribute
 			.attr("transform", "translate(" + (this.chartPoints[0].yScaleWidth) + ","
 				+ (contentHeight - this.chartPoints[0].xScaleHeight) + ")")
@@ -146,14 +139,6 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 		this.gyAttribute
 			.attr("transform", "translate(" + (this.chartPoints[0].yScaleWidth) + "," + 0 + ")")
 			.call(axisLeft(yScale));
-			
-		const myLine = line()
-			.defined(p => (p as unknown as ChartPoint).y !== null && !isNaN((p as unknown as ChartPoint).y))
-			.x((p, i) => xScale((p as unknown as ChartPoint).x instanceof Date ?
-				(p as unknown as ChartPoint).x as Date : i))
-			.y((p) => yScale((p as unknown as ChartPoint).y))
-			.curve((p) => curveMonotoneX(p));
-		return myLine;
 	}
 
 	private updateSingleLine(contentHeight: number, contentWidth: number) {
@@ -174,10 +159,22 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 			.domain(extent<ChartPoint, number>(this.chartPoints[0].chartPointList, p => p.y) as [number, number]).nice()
 			.range([contentHeight - this.chartPoints[0].xScaleHeight, 0]);
 
-		const myLine = this.updateScalesLine(contentHeight, xScale, yScale);
+		const myLine = this.createLine(xScale, yScale);
 
 		this.d3Svg.append('path').datum(this.chartPoints[0].chartPointList)
 			.attr('transform', 'translate(' + this.chartPoints[0].yScaleWidth + ', 0)')
-			.attr('class', 'line').attr('d', myLine as any);				
+			.attr('class', 'line').attr('d', myLine as any);
+			
+		this.updateScales(contentHeight, xScale, yScale);				
+	}
+	
+	private createLine(xScale: ScaleTime<number, number, never> | ScaleLinear<number, number, never>, 
+		yScale: ScaleLinear<number, number, never>): Line<[number, number]> {
+		return line()
+			.defined(p => (p as unknown as ChartPoint).y !== null && !isNaN((p as unknown as ChartPoint).y))
+			.x((p, i) => xScale((p as unknown as ChartPoint).x instanceof Date ?
+				(p as unknown as ChartPoint).x as Date : i))
+			.y((p) => yScale((p as unknown as ChartPoint).y))
+			.curve((p) => curveMonotoneX(p));
 	}
 }

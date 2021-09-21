@@ -69,8 +69,8 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 	}
 
 	@HostListener('window:resize', ['$event'])
-	onResize(event: ResizeEvent): void {
-		this.chartUpdateSubject.next({});
+	onResize(event: ResizeEvent): void {		
+		event && this.chartUpdateSubject.next({});
 	}
 
 	private updateChart(): void {
@@ -116,8 +116,9 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 		const yScale = scaleLinear()
 			.domain(extent<ChartPoint, number>(yScaleValues, p => p.y) as [number, number]).nice()
 			.range([contentHeight - this.chartPoints[0].xScaleHeight, 0]);
-
-		this.d3Svg.append('g')
+		
+		this.d3Svg.selectAll('path').remove();
+		this.d3Svg
 			.selectAll('path')
 			.datum(this.chartPoints)
 			.join('path')
@@ -161,6 +162,7 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 
 		const myLine = this.createLine(xScale, yScale);
 
+		this.d3Svg.selectAll('path').remove();
 		this.d3Svg.append('path').datum(this.chartPoints[0].chartPointList)
 			.attr('transform', 'translate(' + this.chartPoints[0].yScaleWidth + ', 0)')
 			.attr('class', 'line').attr('d', myLine as any);

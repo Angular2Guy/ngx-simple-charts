@@ -91,7 +91,7 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 		}
 		//console.log(`chartPoints: ${this.chartPoints.length} chartPointList: ${this.chartPoints[0].chartPointList.length}`);
 
-		if (this.chartPoints.length <= 1) {
+		if (this.chartPoints.length < 2) {
 			this.updateSingleLine(contentHeight, contentWidth);
 		} else {
 			this.updateMultiLine(contentHeight, contentWidth);

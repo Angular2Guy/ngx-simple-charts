@@ -45,6 +45,7 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 	private chartUpdateSubscription!: Subscription;
 	private gxAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
 	private gyAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
+	private gPathAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
 
 	ngAfterViewInit(): void {
 		this.d3Svg = select<ContainerElement, ChartPoint>(this.chartContainer.nativeElement);
@@ -53,6 +54,13 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 		this.gxAttribute = this.gxAttribute.attr('class', 'x axis');
 		this.gyAttribute = this.d3Svg.append('g');
 		this.gyAttribute = this.gyAttribute.attr('class', 'y axis');
+		this.gPathAttribute = this.d3Svg.append('g')  
+			.attr("fill", "none")
+      		.attr("stroke", "steelblue")
+      		.attr("stroke-width", 1.5)
+      		.attr("stroke-linejoin", "round")
+      		.attr("stroke-linecap", "round");
+		
 		this.chartUpdateSubscription = this.chartUpdateSubject.pipe(debounceTime(100)).subscribe(() => this.updateChart());
 		this.chartUpdateSubject.next({});
 	}
@@ -69,7 +77,7 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 	}
 
 	@HostListener('window:resize', ['$event'])
-	onResize(event: ResizeEvent): void {		
+	onResize(event: ResizeEvent): void {
 		event && this.chartUpdateSubject.next({});
 	}
 
@@ -89,7 +97,7 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 			console.log(`contentHeight: ${contentHeight} contentWidth: ${contentWidth} chartPoints: ${this.chartPoints.length}`);
 			return;
 		}
-		console.log(`chartPoints: ${this.chartPoints.length} chartPointList: ${this.chartPoints[0].chartPointList.length}`);
+		//console.log(`chartPoints: ${this.chartPoints.length} chartPointList: ${this.chartPoints[0].chartPointList.length}`);
 
 		if (this.chartPoints.length < 2) {
 			this.updateSingleLine(contentHeight, contentWidth);
@@ -113,25 +121,27 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 
 		//console.log(xScale);
 		const yScaleValues = this.chartPoints.map(myChartPoints => myChartPoints.chartPointList)
-			.reduce((prevVal, newVal) => {prevVal.push(...newVal); return prevVal;}, []);		
+			.reduce((prevVal, newVal) => { prevVal.push(...newVal); return prevVal; }, []);
 		const yScale = scaleLinear()
 			.domain(extent<ChartPoint, number>(yScaleValues, p => p.y) as [number, number]).nice()
 			.range([contentHeight - this.chartPoints[0].xScaleHeight, 0]);
-		
+
 		//console.log(yScale);
 		this.d3Svg.selectAll('path').remove();
-		this.d3Svg.datum(this.chartPoints).enter()
-			.append('path')									
-			.style("mix-blend-mode", "multiply")
+		this.gPathAttribute			
+			.selectAll('path')
+			.data(this.chartPoints)
+			.join('path')
 			.attr('transform', 'translate(' + this.chartPoints[0].yScaleWidth + ', 0)')
-			.attr("d", (d,i) => 
-				this.createLine(xScale, yScale).apply(this, d[i].chartPointList as any) as any);
-			
+			.style("mix-blend-mode", "multiply")
+			.attr('class', 'line')
+			.datum(d => d.chartPointList)
+			.attr('d', this.createLine(xScale, yScale) as any );
 		this.updateScales(contentHeight, xScale, yScale);
 	}
 
-	private updateScales(contentHeight: number,  
-		xScale: ScaleTime<number, number, never> | ScaleLinear<number, number, never>, 
+	private updateScales(contentHeight: number,
+		xScale: ScaleTime<number, number, never> | ScaleLinear<number, number, never>,
 		yScale: ScaleLinear<number, number, never>): void {
 		this.gxAttribute
 			.attr("transform", "translate(" + (this.chartPoints[0].yScaleWidth) + ","
@@ -161,20 +171,17 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 			.domain(extent<ChartPoint, number>(this.chartPoints[0].chartPointList, p => p.y) as [number, number]).nice()
 			.range([contentHeight - this.chartPoints[0].xScaleHeight, 0]);
 
-		const myLine = this.createLine(xScale, yScale);
-
 		this.d3Svg.selectAll('path').remove();
 		this.d3Svg.append('path').datum(this.chartPoints[0].chartPointList)
 			.attr('transform', 'translate(' + this.chartPoints[0].yScaleWidth + ', 0)')
-			.attr('class', 'line').attr('d', myLine as any);
-			
-		this.updateScales(contentHeight, xScale, yScale);				
+			.attr('class', 'line').attr('d', this.createLine(xScale, yScale) as any);
+
+		this.updateScales(contentHeight, xScale, yScale);
 	}
-	
-	private createLine(xScale: ScaleTime<number, number, never> | ScaleLinear<number, number, never>, 
+
+	private createLine(xScale: ScaleTime<number, number, never> | ScaleLinear<number, number, never>,
 		yScale: ScaleLinear<number, number, never>): Line<[number, number]> {
-		return line()
-			.defined(p => (p as unknown as ChartPoint).y !== null && !isNaN((p as unknown as ChartPoint).y))
+		return line().defined(p => (p as unknown as ChartPoint).y !== null && !isNaN((p as unknown as ChartPoint).y))
 			.x((p, i) => xScale((p as unknown as ChartPoint).x instanceof Date ?
 				(p as unknown as ChartPoint).x as Date : i))
 			.y((p) => yScale((p as unknown as ChartPoint).y))

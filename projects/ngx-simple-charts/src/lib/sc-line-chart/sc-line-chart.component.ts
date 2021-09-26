@@ -89,7 +89,7 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 			console.log(`contentHeight: ${contentHeight} contentWidth: ${contentWidth} chartPoints: ${this.chartPoints.length}`);
 			return;
 		}
-		//console.log(`chartPoints: ${this.chartPoints.length} chartPointList: ${this.chartPoints[0].chartPointList.length}`);
+		console.log(`chartPoints: ${this.chartPoints.length} chartPointList: ${this.chartPoints[0].chartPointList.length}`);
 
 		if (this.chartPoints.length < 2) {
 			this.updateSingleLine(contentHeight, contentWidth);
@@ -112,17 +112,18 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 		}
 
 		//console.log(xScale);
-		const yScaleValues = [].concat.apply(() => this.chartPoints.map(myChartPoints => myChartPoints.chartPointList)) as ChartPoint[];
+		const yScaleValues = this.chartPoints.map(myChartPoints => myChartPoints.chartPointList)
+			.reduce((prevVal, newVal) => {prevVal.push(...newVal); return prevVal;}, []);		
 		const yScale = scaleLinear()
 			.domain(extent<ChartPoint, number>(yScaleValues, p => p.y) as [number, number]).nice()
 			.range([contentHeight - this.chartPoints[0].xScaleHeight, 0]);
 		
+		//console.log(yScale);
 		this.d3Svg.selectAll('path').remove();
-		this.d3Svg
-			.selectAll('path')
-			.datum(this.chartPoints)
-			.join('path')
+		this.d3Svg.datum(this.chartPoints).enter()
+			.append('path')									
 			.style("mix-blend-mode", "multiply")
+			.attr('transform', 'translate(' + this.chartPoints[0].yScaleWidth + ', 0)')
 			.attr("d", (d,i) => 
 				this.createLine(xScale, yScale).apply(this, d[i].chartPointList as any) as any);
 			

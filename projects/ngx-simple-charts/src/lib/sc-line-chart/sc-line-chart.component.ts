@@ -46,6 +46,7 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 	private gxAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
 	private gyAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
 	private gPathAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
+	private gLegendAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
 
 	ngAfterViewInit(): void {
 		this.d3Svg = select<ContainerElement, ChartPoint>(this.chartContainer.nativeElement);
@@ -54,8 +55,9 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 		this.gxAttribute = this.gxAttribute.attr('class', 'x axis');
 		this.gyAttribute = this.d3Svg.append('g');
 		this.gyAttribute = this.gyAttribute.attr('class', 'y axis');
-		this.gPathAttribute = this.d3Svg.append('g');  
-		
+		this.gPathAttribute = this.d3Svg.append('g');
+		this.gLegendAttribute = this.d3Svg.append('g');
+
 		this.chartUpdateSubscription = this.chartUpdateSubject.pipe(debounceTime(100)).subscribe(() => this.updateChart());
 		this.chartUpdateSubject.next({});
 	}
@@ -101,7 +103,7 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 		}
 	}
 
-	private updateMultiLine(contentHeight: number, contentWidth: number) {
+	private updateMultiLine(contentHeight: number, contentWidth: number): void {
 		const xScaleValues = new Set(...this.chartPoints.map(myChartPoint => myChartPoint.chartPointList.map(myChartPointElement => myChartPointElement.x)));
 		let xScale: ScaleTime<number, number, never> | ScaleLinear<number, number, never>;
 		if (this.chartPoints[0].chartPointList[0].x instanceof Date) {
@@ -123,16 +125,34 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 
 		//console.log(yScale);
 		this.d3Svg.selectAll('path').remove();
-		this.gPathAttribute			
+		this.gPathAttribute
 			.selectAll('path')
 			.data(this.chartPoints)
 			.join('path')
 			.attr('transform', 'translate(' + this.chartPoints[0].yScaleWidth + ', 0)')
-			.style("mix-blend-mode", "multiply")			
+			.style("mix-blend-mode", "multiply")
 			.attr('class', d => 'line line-' + d.name.split(/[^a-zA-Z0-9\-]/)[0].toLowerCase())
 			.datum(d => d.chartPointList)
-			.attr('d', this.createLine(xScale, yScale) as any );
+			.attr('d', this.createLine(xScale, yScale) as any);
 		this.updateScales(contentHeight, xScale, yScale);
+		this.updateLegend();
+	}
+
+	private updateLegend(): void {
+		this.gLegendAttribute.selectAll('text').remove();
+		const mySymbols = this.chartPoints.filter(myChartPoint => !myChartPoint.name.includes('äüè'));
+		if (mySymbols.length > 0) {
+			this.gLegendAttribute.selectAll('legend')
+				.data(mySymbols)
+				.enter()
+				.append('text')
+				.attr('x', mySymbols[0].yScaleWidth + 20)
+				.attr('y', (d,i) =>  20 + 20 * i)
+				.text(d => d.name)
+				.attr('class', d => 'line line-' + d.name.split(/[^a-zA-Z0-9\-]/)[0].toLowerCase())
+				.attr('text-anchor', 'left')				
+				.attr('style','stroke-width: 1px !important');				
+		}
 	}
 
 	private updateScales(contentHeight: number,
@@ -148,7 +168,7 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 			.call(axisLeft(yScale));
 	}
 
-	private updateSingleLine(contentHeight: number, contentWidth: number) {
+	private updateSingleLine(contentHeight: number, contentWidth: number): void {
 		let xScale: ScaleTime<number, number, never> | ScaleLinear<number, number, never>;
 		if (this.chartPoints[0].chartPointList[0].x instanceof Date) {
 			xScale = scaleTime()
@@ -172,6 +192,7 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 			.attr('class', 'line').attr('d', this.createLine(xScale, yScale) as any);
 
 		this.updateScales(contentHeight, xScale, yScale);
+		this.updateLegend();
 	}
 
 	private createLine(xScale: ScaleTime<number, number, never> | ScaleLinear<number, number, never>,

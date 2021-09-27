@@ -54,12 +54,7 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 		this.gxAttribute = this.gxAttribute.attr('class', 'x axis');
 		this.gyAttribute = this.d3Svg.append('g');
 		this.gyAttribute = this.gyAttribute.attr('class', 'y axis');
-		this.gPathAttribute = this.d3Svg.append('g')  
-			.attr("fill", "none")
-      		.attr("stroke", "steelblue")
-      		.attr("stroke-width", 1.5)
-      		.attr("stroke-linejoin", "round")
-      		.attr("stroke-linecap", "round");
+		this.gPathAttribute = this.d3Svg.append('g');  
 		
 		this.chartUpdateSubscription = this.chartUpdateSubject.pipe(debounceTime(100)).subscribe(() => this.updateChart());
 		this.chartUpdateSubject.next({});
@@ -133,8 +128,8 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 			.data(this.chartPoints)
 			.join('path')
 			.attr('transform', 'translate(' + this.chartPoints[0].yScaleWidth + ', 0)')
-			.style("mix-blend-mode", "multiply")
-			.attr('class', 'line')
+			.style("mix-blend-mode", "multiply")			
+			.attr('class', d => 'line line-' + d.name.split(/[^a-zA-Z0-9\-]/)[0].toLowerCase())
 			.datum(d => d.chartPointList)
 			.attr('d', this.createLine(xScale, yScale) as any );
 		this.updateScales(contentHeight, xScale, yScale);

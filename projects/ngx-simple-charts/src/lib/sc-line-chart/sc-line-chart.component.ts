@@ -41,6 +41,10 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 	d3Svg!: Selection<ContainerElement, ChartPoint, HTMLElement, any>;
 	@Input()
 	chartPoints: ChartPoints[] = [];
+	@Input()
+	replaceName!: string;
+	@Input()
+	replaceSymbol!: string;
 	private chartUpdateSubject = new Subject();
 	private chartUpdateSubscription!: Subscription;
 	private gxAttribute!: Selection<SVGGElement, ChartPoint, HTMLElement, any>;
@@ -140,7 +144,12 @@ export class ScLineChartComponent implements AfterViewInit, OnChanges, OnDestroy
 
 	private updateLegend(): void {
 		this.gLegendAttribute.selectAll('text').remove();
-		const mySymbols = this.chartPoints.filter(myChartPoint => !myChartPoint.name.includes('äüè'));
+		const mySymbols = this.chartPoints.map(myChartPoint => {
+			if(!!this.replaceName && !!this.replaceSymbol && myChartPoint.name.includes(this.replaceSymbol)) {
+				myChartPoint.name = this.replaceName;
+			}
+			return myChartPoint;
+		});
 		if (mySymbols.length > 0) {
 			this.gLegendAttribute.selectAll('legend')
 				.data(mySymbols)

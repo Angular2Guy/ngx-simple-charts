@@ -1,11 +1,17 @@
 # NgxSimpleCharts
 
-This is a small chart library for Angular based on D3js. It currently supports line charts. Its purpose is to enable fast updates to new Angular versions. To enable the fast updates and due to limited time the library will continue have a small feature set. 
+This is a small chart library for Angular based on D3js. It currently supports single line and multi line charts. Its purpose is to enable fast updates to new Angular versions. To enable the fast updates and due to limited time the library will continue have a small feature set. 
+
+## Minimum Supported Angular Version
+Angular 12 (ivy only)
+
+## Articles
+* [Developing and Using Angular Libraries](https://angular2guy.wordpress.com/2021/07/31/developing-and-using-angular-libraries/)
 
 ## Line Charts
 To use the line chart component this module has to be imported: [NgxSimpleChartsModule](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/src/lib/ngx-simple-charts.module.ts)
 
-Then the component can be used: [<sc-line-chart [chartPoints]="..."></sc-line-chart>](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/src/lib/sc-line-chart/sc-line-chart.component.ts) 
+Then the component can be used: [<sc-line-chart [chartPoints]="..." [replaceName]="..." [replaceSymbol]="..."></sc-line-chart>](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/src/lib/sc-line-chart/sc-line-chart.component.ts) 
 
 The interface for the chartPoints can be found here: [ChartPoints](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/src/lib/model/chart-points.ts)
 

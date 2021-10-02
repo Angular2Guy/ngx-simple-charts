@@ -7,6 +7,7 @@ Angular 12 (ivy only)
 
 ## Articles
 * [Developing and Using Angular Libraries](https://angular2guy.wordpress.com/2021/07/31/developing-and-using-angular-libraries/)
+* [Ngx-Simple-Charts multiline and legend support howto](https://angular2guy.wordpress.com/2021/10/02/ngx-simple-charts-multiline-and-legend-support-howto/)
 
 ## Line Charts
 To use the line chart component this module has to be imported: [NgxSimpleChartsModule](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/src/lib/ngx-simple-charts.module.ts)

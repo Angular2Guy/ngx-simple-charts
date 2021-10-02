@@ -12,7 +12,8 @@
     "test-chromium": "ng test --browsers ChromiumHeadless --watch=false",
     "test-watch-local": "ng test --browsers ChromiumHeadless --watch=true",
     "lint": "ng lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+	"release": "npx standard-version"
   },
   "private": false,
   "dependencies": {

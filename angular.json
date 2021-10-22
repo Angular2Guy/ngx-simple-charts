@@ -30,21 +30,20 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/ngx-simple-charts/tsconfig.lib.json",
-              "projects/ngx-simple-charts/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/ngx-simple-charts/**/*.ts",
+              "projects/ngx-simple-charts/**/*.html"
             ]
           }
         }
       }
-    }},
+    }
+  },
   "cli": {
-    "analytics": "fcdd0a54-3ae8-4c46-b905-9b032bc661e9"
+    "analytics": "fcdd0a54-3ae8-4c46-b905-9b032bc661e9",
+    "defaultCollection": "@angular-eslint/schematics"
   },
   "defaultProject": "ngx-simple-charts"
 }

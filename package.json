@@ -15,7 +15,7 @@
     "prepare": "husky install",
     "release": "npx standard-version",
     "prettier": "npx prettier --write ./projects/**/*.{ts,html,scss,json}",
-    "pretty-quick": "npx pretty-quick --staged",
+    "pretty-quick": "npx pretty-quick --staged --pattern '**/*.*(ts|html|scss|json)'",
     "standard-changelog": "npx standard-changelog",
     "commitlint": "npx --no-install commitlint --edit "
   },

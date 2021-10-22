@@ -14,7 +14,10 @@
     "lint": "ng lint",
     "prepare": "husky install",
     "release": "npx standard-version",
-    "prettier": "npx prettier --write ./projects/**/*.{ts,html,scss,json}"
+    "prettier": "npx prettier --write ./projects/**/*.{ts,html,scss,json}",
+    "pretty-quick": "npx pretty-quick --staged",
+    "standard-changelog": "npx standard-changelog",
+    "commitlint": "npx --no-install commitlint --edit "
   },
   "private": false,
   "dependencies": {
@@ -81,6 +84,7 @@
     "karma-junit-reporter": "~1.2.0",
     "ng-packagr": "^12.0.0",
     "prettier": "^2.4.1",
+    "pretty-quick": "^3.1.1",
     "protractor": "~7.0.0",
     "standard-changelog": "^2.0.27",
     "standard-version": "^9.3.1",

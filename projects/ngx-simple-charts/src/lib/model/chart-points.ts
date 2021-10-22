@@ -10,14 +10,14 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-export interface ChartPoint{
-	y: number;
-	x: string | Date;
+export interface ChartPoint {
+  y: number;
+  x: string | Date;
 }
 
 export interface ChartPoints {
-	name: string;
-	yScaleWidth: number;
-	xScaleHeight: number;
-	chartPointList: ChartPoint[]; 
+  name: string;
+  yScaleWidth: number;
+  xScaleHeight: number;
+  chartPointList: ChartPoint[];
 }

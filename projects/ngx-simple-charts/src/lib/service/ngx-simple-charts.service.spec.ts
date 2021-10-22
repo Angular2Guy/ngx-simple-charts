@@ -19,7 +19,7 @@ describe('NgxSimpleChartsService', () => {
   let service: NgxSimpleChartsService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({imports: [NgxSimpleChartsModule]});
+    TestBed.configureTestingModule({ imports: [NgxSimpleChartsModule] });
     service = TestBed.inject(NgxSimpleChartsService);
   });
 

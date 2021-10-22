@@ -13,7 +13,8 @@
     "test-watch-local": "ng test --browsers ChromiumHeadless --watch=true",
     "lint": "ng lint",
     "prepare": "husky install",
-	"release": "npx standard-version"
+    "release": "npx standard-version",
+	"prettier": "npx prettier --write ./projects/**/*.{ts,html,scss,json}"
   },
   "private": false,
   "dependencies": {
@@ -70,6 +71,7 @@
     "karma-jasmine-html-reporter": "^1.5.0",
     "karma-junit-reporter": "~1.2.0",
     "ng-packagr": "^12.0.0",
+    "prettier": "^2.4.1",
     "protractor": "~7.0.0",
     "standard-changelog": "^2.0.27",
     "standard-version": "^9.3.1",

@@ -19,6 +19,6 @@ import { NgxSimpleChartsService } from './service/ngx-simple-charts.service';
   declarations: [ScLineChartComponent],
   imports: [CommonModule],
   exports: [ScLineChartComponent],
-  providers: [NgxSimpleChartsService]
+  providers: [NgxSimpleChartsService],
 })
-export class NgxSimpleChartsModule { }
+export class NgxSimpleChartsModule {}

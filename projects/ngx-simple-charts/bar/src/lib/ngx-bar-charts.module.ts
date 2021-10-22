@@ -12,8 +12,11 @@
  */
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ScBarChartComponent } from './sc-bar-chart/sc-bar-chart.component';
 
 @NgModule({
+  declarations: [ScBarChartComponent],
   imports: [CommonModule],
+  exports: [ScBarChartComponent],
 })
-export class NgxSimpleChartsModule {}
+export class NgxBarChartsModule {}

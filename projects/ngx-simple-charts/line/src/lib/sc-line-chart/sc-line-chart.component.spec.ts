@@ -12,7 +12,7 @@
  */
 import { SimpleChange, SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChartPoint, ChartPoints } from '../model/chart-points';
+import { ChartPoint, ChartPoints } from './model/chart-points';
 
 import { ScLineChartComponent } from './sc-line-chart.component';
 

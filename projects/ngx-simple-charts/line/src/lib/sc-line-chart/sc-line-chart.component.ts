@@ -28,7 +28,7 @@ import { scaleLinear, scaleTime, ScaleLinear, ScaleTime } from 'd3-scale';
 import { extent } from 'd3-array';
 import { line, curveMonotoneX, Line } from 'd3-shape';
 import { axisBottom, axisLeft } from 'd3-axis';
-import { ChartPoints, ChartPoint } from '../model/chart-points';
+import { ChartPoints, ChartPoint } from './model/chart-points';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 

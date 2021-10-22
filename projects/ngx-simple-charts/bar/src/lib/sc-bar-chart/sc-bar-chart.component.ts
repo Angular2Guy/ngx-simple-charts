@@ -10,10 +10,18 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 
-@NgModule({
-  imports: [CommonModule],
+@Component({
+  selector: 'sc-bar-chart',
+  templateUrl: './sc-bar-chart.component.html',
+  styleUrls: ['./sc-bar-chart.component.css'],
 })
-export class NgxSimpleChartsModule {}
+export class ScBarChartComponent implements OnInit {
+  text = '';
+  constructor() {}
+
+  ngOnInit(): void {
+    this.text = 'hallo';
+  }
+}

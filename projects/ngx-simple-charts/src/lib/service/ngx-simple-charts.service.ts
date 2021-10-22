@@ -11,8 +11,9 @@
    limitations under the License.
  */
 import { Injectable } from '@angular/core';
+import { NgxSimpleChartsModule } from '../ngx-simple-charts.module';
 
-@Injectable()
+@Injectable({ providedIn: NgxSimpleChartsModule })
 export class NgxSimpleChartsService {
   constructor() {}
 }

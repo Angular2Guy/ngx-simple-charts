@@ -10,10 +10,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-@NgModule({
-  imports: [CommonModule],
-})
-export class NgxSimpleChartsModule {}
+/*
+ * Public API Surface of ngx-simple-charts
+ */
+export * from './src/lib/sc-bar-chart/sc-bar-chart.component';
+export * from './src/lib/ngx-bar-charts.module';

@@ -54,8 +54,8 @@ jobs:
       with:
        node-version: '14'
     - run: npm install
-    - run: npm build-prod
-    - run: npm test
+    - run: npm run build-prod
+    - run: npm run test
       
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl

@@ -15,13 +15,13 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'sc-bar-chart',
   templateUrl: './sc-bar-chart.component.html',
-  styleUrls: ['./sc-bar-chart.component.css'],
+  styleUrls: ['./sc-bar-chart.component.scss'],
 })
 export class ScBarChartComponent implements OnInit {
-  text = '';
+  text = 'Somebody';
   constructor() {}
 
   ngOnInit(): void {
-    this.text = 'hallo';
+    this.text = 'Somebody';
   }
 }

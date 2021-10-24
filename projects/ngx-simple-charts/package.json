@@ -1,6 +1,6 @@
 {
   "name": "ngx-simple-charts",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "Apache License Version 2.0",
   "peerDependencies": {
     "@angular/common": "^12.0.0",

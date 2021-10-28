@@ -10,18 +10,15 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-.d3-chart {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+export interface ChartBars {
+  title: string;
+  from: string;
+  yScaleWidth: number;
+  xScaleHeight: number;
+  chartBars: ChartBar[];
 }
 
-.d3-chart-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+export interface ChartBar {
+  y: number;
+  x: string;
 }

@@ -2,7 +2,11 @@
   "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
   "lib": {
     "entryFile": "./public-api.ts",
-    "umdModuleIds": {}
-  },
-  "allowedNonPeerDependencies": ["d3"]
+    "umdModuleIds": {
+      "d3-array": "d3-array",
+      "d3-scale": "d3-scale",
+      "d3-selection": "d3-selection",
+      "d3-axis": "d3-axis"
+    }
+  }
 }

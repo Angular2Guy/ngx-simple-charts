@@ -15,6 +15,5 @@
       "d3-transition": "d3-transition",
       "d3-axis": "d3-axis"
     }
-  },
-  "allowedNonPeerDependencies": ["d3"]
+  }
 }

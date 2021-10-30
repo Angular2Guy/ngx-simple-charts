@@ -104,24 +104,15 @@ export class ScBarChartComponent
     this.d3Svg.selectAll('path').remove();
     this.d3Svg
       .append('path')
-      .datum(this.chartBars.chartBars)
+      .data(this.chartBars.chartBars)
       .attr('transform', 'translate(' + this.chartBars.yScaleWidth + ', 0)')
       .join('rect')
-      .attr(
-        'x',
-        (d) =>
-          x(
-            extent(d, (cb) => cb.x as string) as unknown as string
-          ) as unknown as string
-      )
-      .attr('y', (d) => extent(d, (cb) => cb.y as number) as unknown as number)
+      .attr('x', (d) => x(d.x) as unknown as string)
+      .attr('y', (d) => y(d.y))
       .attr('width', x.bandwidth())
       .attr(
         'height',
-        (d) =>
-          contentHeight -
-          this.chartBars.xScaleHeight -
-          y(extent(d, (cb) => cb.y as number) as unknown as number)
+        (d) => contentHeight - this.chartBars.xScaleHeight - y(d.y)
       )
       .attr('fill', '#69b3a2');
   }

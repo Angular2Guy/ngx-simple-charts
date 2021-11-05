@@ -15,3 +15,4 @@
  */
 export * from './src/lib/sc-bar-chart/sc-bar-chart.component';
 export * from './src/lib/ngx-bar-charts.module';
+export * from './src/lib/sc-bar-chart/model/chart-bars';

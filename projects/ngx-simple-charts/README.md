@@ -1,6 +1,6 @@
 # NgxSimpleCharts
 
-This is a small chart library for Angular based on D3js. It currently supports single line and multi line charts with a legend. Its purpose is to enable fast updates to new Angular versions. To enable the fast updates and due to limited time the library will continue have a small feature set. 
+This is a small chart library for Angular based on D3js. It currently supports single line and multi line charts with a legend. Bar charts are now supported too. Its purpose is to enable fast updates to new Angular versions. To enable the fast updates and due to limited time the library will continue have a small feature set. 
 
 ## Minimum Supported Angular Version
 Angular 12 (ivy only)
@@ -21,5 +21,8 @@ The classes have to be overwritten with '::ng-deep' and the ViewEncapsulation.Sh
 
 The legend shows the names of the ChartPoints in the color that set for the lines. If one 'ChartPoints.name' should be replaced the 'replaceSymbol' has to be a string that the 'ChartPoints.name' includes and is replaced with the 'replaceName'.
 
+## Bar Charts
+The first iteration of bar chart support is now available.
+
 ## Some time in the future
-There might Bar Charts be added at some time in the future. For more features pull requests are welcome.
+For more features pull requests are welcome.

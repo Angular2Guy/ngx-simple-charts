@@ -92,9 +92,9 @@ export class ScBarChartComponent
 
     this.d3Svg.selectAll('g').remove();
     const gxAttributeTemp = this.d3Svg.append('g');
-    const gxAttribute = gxAttributeTemp.attr('class', 'x axis');
+    const gxAttribute = gxAttributeTemp.attr('class', 'x-axis');
     const gyAttributeTemp = this.d3Svg.append('g');
-    const gyAttribute = gyAttributeTemp.attr('class', 'y axis');
+    const gyAttribute = gyAttributeTemp.attr('class', 'y-axis');
 
     // X axis
     const xScale = scaleBand()
@@ -121,7 +121,7 @@ export class ScBarChartComponent
       .domain(
         [
           min([0, ...this.chartBars.chartBars.map((myBar) => myBar.y)]),
-          max(this.chartBars.chartBars.map((myBar) => myBar.y)),
+          max([0, ...this.chartBars.chartBars.map((myBar) => myBar.y)]),
         ] as number[]
         /*extent<ChartBar, number>(this.chartBars.chartBars, (p) => p.y) as [
           number,

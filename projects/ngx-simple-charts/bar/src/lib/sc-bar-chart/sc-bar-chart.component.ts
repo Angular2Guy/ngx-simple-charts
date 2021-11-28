@@ -21,16 +21,40 @@ import {
   SimpleChanges,
   HostListener,
 } from '@angular/core';
-import { extent, max, min } from 'd3-array';
+import { max, min } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { scaleBand, scaleLinear } from 'd3-scale';
-import { ContainerElement, select, selectAll, Selection } from 'd3-selection';
+import { ContainerElement, select, Selection } from 'd3-selection';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { ChartBar, ChartBars } from './model/chart-bars';
 
 interface ResizeEvent {
   type: string;
+}
+
+enum YScalePosition {
+  Top,
+  Bottom,
+  Middle,
+}
+
+class Tuple<A, B> {
+  private _a: A;
+  private _b: B;
+
+  constructor(a: A, b: B) {
+    this._a = a;
+    this._b = b;
+  }
+
+  public get a(): A {
+    return this._a;
+  }
+
+  public get b(): B {
+    return this._b;
+  }
 }
 
 @Component({
@@ -76,6 +100,33 @@ export class ScBarChartComponent
     event && this.chartUpdateSubject.next({});
   }
 
+  private calcBarChartsXScalePosition(
+    contentHeight: number,
+    minYValue: number,
+    maxYValue: number
+  ): Tuple<YScalePosition, number> {
+    const positivePart =
+      maxYValue / (Math.abs(minYValue) + Math.abs(maxYValue));
+    let xPosition =
+      minYValue >= 0 && maxYValue >= 0
+        ? new Tuple<YScalePosition, number>(
+            YScalePosition.Bottom,
+            contentHeight - this.chartBars.xScaleHeight
+          )
+        : new Tuple<YScalePosition, number>(
+            YScalePosition.Middle,
+            (contentHeight - this.chartBars.xScaleHeight) * positivePart
+          );
+    xPosition =
+      minYValue <= 0 && minYValue <= 0
+        ? new Tuple<YScalePosition, number>(
+            YScalePosition.Top,
+            this.chartBars.xScaleHeight
+          )
+        : xPosition;
+    return xPosition;
+  }
+
   private updateChart(): void {
     const contentWidth = isNaN(
       parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10)
@@ -102,42 +153,56 @@ export class ScBarChartComponent
       .rangeRound([contentWidth - this.chartBars.yScaleWidth, 0])
       .padding(0.2);
 
+    const minYValue =
+      min([0, ...this.chartBars.chartBars.map((myBar) => myBar.y)]) || 0;
+    const maxYValue =
+      max([0, ...this.chartBars.chartBars.map((myBar) => myBar.y)]) || 0;
+
+    const yScalePosition = this.calcBarChartsXScalePosition(
+      contentHeight,
+      minYValue,
+      maxYValue
+    );
+
     gxAttribute
       .attr(
         'transform',
-        'translate(' +
-          this.chartBars.yScaleWidth +
-          ',' +
-          (contentHeight - this.chartBars.xScaleHeight) +
-          ')'
+        'translate(' + this.chartBars.yScaleWidth + ',' + yScalePosition.b + ')'
       )
       .call(axisBottom(xScale))
       .selectAll('text')
-      .attr('transform', 'translate(-10,0)rotate(-45)')
-      .style('text-anchor', 'end');
+      .attr(
+        'transform',
+        yScalePosition.a === YScalePosition.Top
+          ? 'translate(-10,-15)rotate(-45)'
+          : 'translate(-10,0)rotate(-45)'
+      )
+      .style(
+        'text-anchor',
+        yScalePosition.a === YScalePosition.Top ? 'start' : 'end'
+      );
 
     // Add Y axis
     const yScale = scaleLinear()
-      .domain(
-        [
-          min([0, ...this.chartBars.chartBars.map((myBar) => myBar.y)]),
-          max([0, ...this.chartBars.chartBars.map((myBar) => myBar.y)]),
-        ] as number[]
-        /*extent<ChartBar, number>(this.chartBars.chartBars, (p) => p.y) as [
-          number,
-          number
-        ]*/
-      )
+      .domain([minYValue, maxYValue] as number[])
       .nice()
       .range([contentHeight - this.chartBars.xScaleHeight, 0]);
     gyAttribute
       .attr(
         'transform',
-        'translate(' + this.chartBars.yScaleWidth + ',' + 0 + ')'
+        'translate(' +
+          this.chartBars.yScaleWidth +
+          ',' +
+          (yScalePosition.a === YScalePosition.Top
+            ? '' + this.chartBars.xScaleHeight
+            : '' + 0) +
+          ')'
       )
       .call(axisLeft(yScale));
 
     //console.log(this.gAttribute);
+
+    console.log(yScalePosition.a === YScalePosition.Top);
 
     // Bars
     this.d3Svg.selectAll('#my-chart').remove();
@@ -152,11 +217,16 @@ export class ScBarChartComponent
         'x',
         (d) => (xScale(d.x) as unknown as number) + this.chartBars.yScaleWidth
       )
-      .attr('y', (d) => yScale(d.y))
+      .attr('y', (d) =>
+        yScalePosition.a === YScalePosition.Top
+          ? this.chartBars.xScaleHeight
+          : yScale(d.y)
+      )
       .attr('width', xScale.bandwidth())
-      .attr(
-        'height',
-        (d) => contentHeight - this.chartBars.xScaleHeight - yScale(d.y)
+      .attr('height', (d) =>
+        yScalePosition.a === YScalePosition.Top
+          ? yScale(d.y)
+          : contentHeight - this.chartBars.xScaleHeight - yScale(d.y)
       )
       .attr('fill', '#0000ff');
   }

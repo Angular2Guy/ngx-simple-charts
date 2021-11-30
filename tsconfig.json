@@ -15,10 +15,7 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "lib": ["es2018", "dom"],
     "paths": {
       "ngx-simple-charts": [
         "dist/ngx-simple-charts/ngx-simple-charts",
@@ -29,6 +26,8 @@
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true
   }
 }

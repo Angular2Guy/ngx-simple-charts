@@ -22,7 +22,7 @@ The classes have to be overwritten with '::ng-deep' and the ViewEncapsulation.Sh
 The legend shows the names of the ChartPoints in the color that set for the lines. If one 'ChartPoints.name' should be replaced the 'replaceSymbol' has to be a string that the 'ChartPoints.name' includes and is replaced with the 'replaceName'.
 
 ## Bar Charts
-The first iteration of bar chart support is now available.
+The second iteration of bar chart support is now available.
 
 ## Some time in the future
 For more features pull requests are welcome.

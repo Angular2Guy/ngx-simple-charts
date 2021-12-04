@@ -117,13 +117,15 @@ export class ScBarChartComponent
             YScalePosition.Middle,
             (contentHeight - this.chartBars.xScaleHeight) * positivePart
           );
+    //console.log(xPosition);
     xPosition =
-      minYValue <= 0 && minYValue <= 0
+      minYValue <= 0 && maxYValue <= 0
         ? new Tuple<YScalePosition, number>(
             YScalePosition.Top,
             this.chartBars.xScaleHeight
           )
         : xPosition;
+    //console.log(xPosition);
     return xPosition;
   }
 
@@ -157,6 +159,8 @@ export class ScBarChartComponent
       min([0, ...this.chartBars.chartBars.map((myBar) => myBar.y)]) || 0;
     const maxYValue =
       max([0, ...this.chartBars.chartBars.map((myBar) => myBar.y)]) || 0;
+
+    //console.log(minYValue, maxYValue);
 
     const yScalePosition = this.calcBarChartsXScalePosition(
       contentHeight,
@@ -202,7 +206,7 @@ export class ScBarChartComponent
 
     //console.log(this.gAttribute);
 
-    console.log(yScalePosition.a === YScalePosition.Top);
+    //console.log(yScalePosition.a === YScalePosition.Top);
 
     // Bars
     this.d3Svg.selectAll('#my-chart').remove();

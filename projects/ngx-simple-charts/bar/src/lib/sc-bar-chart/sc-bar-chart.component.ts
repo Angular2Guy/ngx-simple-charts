@@ -203,7 +203,11 @@ export class ScBarChartComponent
         'transform',
         yScalePosition.a === YScalePosition.Top
           ? 'translate(-10,-15)rotate(-45)'
-          : 'translate(-10,0)rotate(-45)'
+          : yScalePosition.a === YScalePosition.Bottom
+          ? 'translate(-10,0)rotate(-45)'
+          : `translate(-10,${
+              contentHeight - yScalePosition.b - this.chartBars.xScaleHeight
+            })rotate(-45)`
       )
       .style(
         'text-anchor',

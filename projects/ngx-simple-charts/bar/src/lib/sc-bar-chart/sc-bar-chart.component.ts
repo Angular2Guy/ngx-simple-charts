@@ -162,10 +162,34 @@ export class ScBarChartComponent
 
     //console.log(minYValue, maxYValue);
 
-    const yScalePosition = this.calcBarChartsXScalePosition(
+    const yScalePositionY = this.calcBarChartsXScalePosition(
       contentHeight,
       minYValue,
       maxYValue
+    );
+
+    // Add Y axis
+    const yScale = scaleLinear()
+      .domain([minYValue, maxYValue] as number[])
+      .nice()
+      .range([contentHeight - this.chartBars.xScaleHeight, 0]);
+    gyAttribute
+      .attr(
+        'transform',
+        'translate(' +
+          this.chartBars.yScaleWidth +
+          ',' +
+          (yScalePositionY.a === YScalePosition.Top
+            ? '' + this.chartBars.xScaleHeight
+            : '' + 0) +
+          ')'
+      )
+      .call(axisLeft(yScale));
+
+    const yScalePosition = this.calcBarChartsXScalePosition(
+      contentHeight,
+      min(yScale.domain()) || 0,
+      max(yScale.domain()) || 0
     );
 
     gxAttribute
@@ -186,23 +210,7 @@ export class ScBarChartComponent
         yScalePosition.a === YScalePosition.Top ? 'start' : 'end'
       );
 
-    // Add Y axis
-    const yScale = scaleLinear()
-      .domain([minYValue, maxYValue] as number[])
-      .nice()
-      .range([contentHeight - this.chartBars.xScaleHeight, 0]);
-    gyAttribute
-      .attr(
-        'transform',
-        'translate(' +
-          this.chartBars.yScaleWidth +
-          ',' +
-          (yScalePosition.a === YScalePosition.Top
-            ? '' + this.chartBars.xScaleHeight
-            : '' + 0) +
-          ')'
-      )
-      .call(axisLeft(yScale));
+    //console.log(yScale.domain());
 
     //console.log(this.gAttribute);
 
@@ -224,14 +232,25 @@ export class ScBarChartComponent
       .attr('y', (d) =>
         yScalePosition.a === YScalePosition.Top
           ? this.chartBars.xScaleHeight
-          : yScale(d.y)
+          : yScalePosition.a === YScalePosition.Bottom || d.y > 0
+          ? yScale(d.y)
+          : yScalePosition.b
       )
       .attr('width', xScale.bandwidth())
-      .attr('height', (d) =>
-        yScalePosition.a === YScalePosition.Top
-          ? yScale(d.y)
-          : contentHeight - this.chartBars.xScaleHeight - yScale(d.y)
-      )
+      .attr('height', (d) => {
+        let result = 0;
+        if (yScalePosition.a === YScalePosition.Top) {
+          result = yScale(d.y);
+        } else if (yScalePosition.a === YScalePosition.Bottom) {
+          result = contentHeight - this.chartBars.xScaleHeight - yScale(d.y);
+        } else {
+          result =
+            d.y < 0
+              ? yScale(d.y) - yScalePosition.b
+              : yScalePosition.b - yScale(d.y);
+        }
+        return result;
+      })
       .attr('fill', '#0000ff');
   }
 }

@@ -255,6 +255,12 @@ export class ScBarChartComponent
         }
         return result;
       })
-      .attr('fill', '#0000ff');
+      .attr(
+        'class',
+        (d) =>
+          'bar bar-' +
+          d.x.split(/[^a-zA-Z0-9\-]/)[0].toLowerCase() +
+          `${d.x === this.chartBars.title ? ' bar-portfolio' : ''}`
+      );
   }
 }

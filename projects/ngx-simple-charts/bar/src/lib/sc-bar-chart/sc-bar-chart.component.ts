@@ -22,15 +22,22 @@ import {
   HostListener,
 } from '@angular/core';
 import { max, min } from 'd3-array';
-import { axisBottom, axisLeft } from 'd3-axis';
-import { scaleBand, scaleLinear } from 'd3-scale';
-import { ContainerElement, select, Selection } from 'd3-selection';
+import { axisBottom, axisLeft, AxisScale } from 'd3-axis';
+import { NumberValue, scaleBand, scaleLinear } from 'd3-scale';
+import { BaseType, ContainerElement, select, Selection } from 'd3-selection';
+import { Transition } from 'd3-transition';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { ChartBar, ChartBars } from './model/chart-bars';
 
 interface ResizeEvent {
   type: string;
+}
+
+interface MySelection
+  extends Selection<ContainerElement, ChartBar, HTMLElement, any> {
+  interrupt(): this;
+  transition(): Transition<ContainerElement, ChartBar, HTMLElement, any>;
 }
 
 enum YScalePosition {
@@ -67,7 +74,7 @@ export class ScBarChartComponent
 {
   @ViewChild('svgchart', { static: true })
   private chartContainer!: ElementRef;
-  d3Svg!: Selection<ContainerElement, ChartBar, HTMLElement, any>;
+  d3Svg!: MySelection;
   private chartUpdateSubject = new Subject();
   private chartUpdateSubscription!: Subscription;
   @Input()
@@ -184,7 +191,7 @@ export class ScBarChartComponent
             : '' + 0) +
           ')'
       )
-      .call(axisLeft(yScale));
+      .call(axisLeft(yScale as unknown as AxisScale<number>) as any);
 
     const yScalePosition = this.calcBarChartsXScalePosition(
       contentHeight,
@@ -197,7 +204,7 @@ export class ScBarChartComponent
         'transform',
         'translate(' + this.chartBars.yScaleWidth + ',' + yScalePosition.b + ')'
       )
-      .call(axisBottom(xScale))
+      .call(axisBottom(xScale as unknown as AxisScale<number>) as any)
       .selectAll('text')
       .attr(
         'transform',
@@ -233,6 +240,10 @@ export class ScBarChartComponent
         'x',
         (d) => (xScale(d.x) as unknown as number) + this.chartBars.yScaleWidth
       )
+      .attr('width', xScale.bandwidth())
+      .attr('height', 0)
+      .transition()
+      .duration(800)
       .attr('y', (d) =>
         yScalePosition.a === YScalePosition.Top
           ? this.chartBars.xScaleHeight
@@ -240,7 +251,6 @@ export class ScBarChartComponent
           ? yScale(d.y)
           : yScalePosition.b
       )
-      .attr('width', xScale.bandwidth())
       .attr('height', (d) => {
         let result = 0;
         if (yScalePosition.a === YScalePosition.Top) {
@@ -261,6 +271,7 @@ export class ScBarChartComponent
           'bar bar-' +
           d.x.split(/[^a-zA-Z0-9\-]/)[0].toLowerCase() +
           `${d.x === this.chartBars.title ? ' bar-portfolio' : ''}`
-      );
+      )
+      .delay((d, i) => i * 100);
   }
 }

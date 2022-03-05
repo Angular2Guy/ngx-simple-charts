@@ -252,8 +252,8 @@ export class ScBarChartComponent
       )
       .attr('width', xScale.bandwidth())
       .attr('height', 0)
-      .transition()
-      .duration(800)
+      //      .transition()
+      //      .duration(800)
       .attr('y', (d) =>
         yScalePosition.a === YScalePosition.Top
           ? this.chartBars.xScaleHeight
@@ -281,7 +281,7 @@ export class ScBarChartComponent
           'bar bar-' +
           d.x.split(/[^a-zA-Z0-9\-]/)[0].toLowerCase() +
           `${d.x === this.chartBars.title ? ' bar-portfolio' : ''}`
-      )
-      .delay((d, i) => i * 100);
+      );
+    //      .delay((d, i) => i * 100);
   }
 }

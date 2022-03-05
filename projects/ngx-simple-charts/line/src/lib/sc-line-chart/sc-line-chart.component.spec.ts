@@ -10,15 +10,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { SimpleChange, SimpleChanges } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChartPoint, ChartPoints } from './model/chart-points';
-
-import { ScLineChartComponent } from './sc-line-chart.component';
 
 describe('ScLineChartComponent', () => {
-  let component: ScLineChartComponent;
-  let fixture: ComponentFixture<ScLineChartComponent>;
+  /*
   const chartPoints: ChartPoints = {
     name: 'myChartPoints',
     xScaleHeight: 250,
@@ -29,8 +23,8 @@ describe('ScLineChartComponent', () => {
     { x: new Date(2021, 0, 1), y: 50 },
     { x: new Date(2021, 0, 2), y: 75 },
   ];
-
-  /*
+*/
+  /*  
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ScLineChartComponent],

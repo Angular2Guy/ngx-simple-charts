@@ -191,7 +191,12 @@ export class ScBarChartComponent
             : '' + 0) +
           ')'
       )
-      .call(axisLeft(yScale as unknown as AxisScale<number>) as any);
+      .call(
+        axisLeft(yScale as unknown as AxisScale<number>) as (
+          selection: Selection<SVGGElement, ChartBar, HTMLElement, any>,
+          ...args: any[]
+        ) => void
+      );
 
     const yScalePosition = this.calcBarChartsXScalePosition(
       contentHeight,
@@ -204,7 +209,12 @@ export class ScBarChartComponent
         'transform',
         'translate(' + this.chartBars.yScaleWidth + ',' + yScalePosition.b + ')'
       )
-      .call(axisBottom(xScale as unknown as AxisScale<number>) as any)
+      .call(
+        axisBottom(xScale as unknown as AxisScale<number>) as (
+          selection: Selection<SVGGElement, ChartBar, HTMLElement, any>,
+          ...args: any[]
+        ) => void
+      )
       .selectAll('text')
       .attr(
         'transform',

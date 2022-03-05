@@ -34,12 +34,6 @@ interface ResizeEvent {
   type: string;
 }
 
-interface MySelection
-  extends Selection<ContainerElement, ChartBar, HTMLElement, any> {
-  interrupt(): this;
-  transition(): Transition<ContainerElement, ChartBar, HTMLElement, any>;
-}
-
 enum YScalePosition {
   Top,
   Bottom,
@@ -74,7 +68,7 @@ export class ScBarChartComponent
 {
   @ViewChild('svgchart', { static: true })
   private chartContainer!: ElementRef;
-  d3Svg!: MySelection;
+  d3Svg!: Selection<ContainerElement, ChartBar, HTMLElement, any>;
   private chartUpdateSubject = new Subject();
   private chartUpdateSubscription!: Subscription;
   @Input()

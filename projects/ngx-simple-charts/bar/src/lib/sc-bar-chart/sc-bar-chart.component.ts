@@ -25,7 +25,7 @@ import { max, min } from 'd3-array';
 import { axisBottom, axisLeft, AxisScale } from 'd3-axis';
 import { NumberValue, scaleBand, scaleLinear } from 'd3-scale';
 import { BaseType, ContainerElement, select, Selection } from 'd3-selection';
-import { Transition } from 'd3-transition';
+import 'd3-transition';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { ChartBar, ChartBars } from './model/chart-bars';
@@ -246,8 +246,8 @@ export class ScBarChartComponent
       )
       .attr('width', xScale.bandwidth())
       .attr('height', 0)
-      //      .transition()
-      //      .duration(800)
+      .transition()
+      .duration(800)
       .attr('y', (d) =>
         yScalePosition.a === YScalePosition.Top
           ? this.chartBars.xScaleHeight
@@ -275,7 +275,7 @@ export class ScBarChartComponent
           'bar bar-' +
           d.x.split(/[^a-zA-Z0-9\-]/)[0].toLowerCase() +
           `${d.x === this.chartBars.title ? ' bar-portfolio' : ''}`
-      );
-    //      .delay((d, i) => i * 100);
+      )
+      .delay((d, i) => i * 100);
   }
 }

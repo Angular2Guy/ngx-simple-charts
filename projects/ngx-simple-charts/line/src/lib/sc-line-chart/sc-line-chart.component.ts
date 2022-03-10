@@ -1,5 +1,5 @@
 /**
- *    Copyright 2021 Sven Loesekann
+   Copyright 2021 Sven Loesekann
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
@@ -25,12 +25,16 @@ import {
 } from '@angular/core';
 import { select, Selection, ContainerElement } from 'd3-selection';
 import { scaleLinear, scaleTime, ScaleLinear, ScaleTime } from 'd3-scale';
+import { easeLinear } from 'd3-ease';
 import { extent } from 'd3-array';
 import { line, curveMonotoneX, Line } from 'd3-shape';
-import { axisBottom, axisLeft } from 'd3-axis';
+import { axisBottom, axisLeft, AxisScale } from 'd3-axis';
 import { ChartPoints, ChartPoint } from './model/chart-points';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import 'd3-transition';
+import { Transition } from 'd3-transition';
+import { interpolateNumber } from 'd3-interpolate';
 
 interface ResizeEvent {
   type: string;
@@ -179,7 +183,7 @@ export class ScLineChartComponent
 
     //console.log(yScale);
     this.d3Svg.selectAll('path').remove();
-    this.gPathAttribute
+    const myD3Svg = this.gPathAttribute
       .selectAll('path')
       .data(this.chartPoints)
       .join('path')
@@ -192,10 +196,28 @@ export class ScLineChartComponent
         'class',
         (d) => 'line line-' + d.name.split(/[^a-zA-Z0-9\-]/)[0].toLowerCase()
       )
-      .datum((d) => d.chartPointList)
-      .attr('d', this.createLine(xScale, yScale) as any);
+      .datum((d) => d.chartPointList);
+    // .attr('d', this.createLine(xScale, yScale) as any);
+
     this.updateScales(contentHeight, xScale, yScale);
     this.updateLegend();
+
+    console.log(this.chartPoints[0].chartPointList.length);
+
+    myD3Svg
+      .attr('d', this.createLine(xScale, yScale) as any)
+      .attr(
+        'stroke-dasharray',
+        this.chartPoints[0].chartPointList.length +
+          ' ' +
+          this.chartPoints[0].chartPointList.length
+      )
+      .attr('stroke-dashoffset', this.chartPoints[0].chartPointList.length)
+      .transition()
+      .duration(5000)
+      .ease(easeLinear)
+      .attr('stroke-dashoffset', 0);
+    // myD3Svg.call(this.myTransition as any);
   }
 
   private updateLegend(): void {
@@ -244,14 +266,24 @@ export class ScLineChartComponent
           (contentHeight - this.chartPoints[0].xScaleHeight) +
           ')'
       )
-      .call(axisBottom(xScale));
+      .call(
+        axisBottom(xScale as unknown as AxisScale<number>) as (
+          selection: Selection<SVGGElement, ChartPoint, HTMLElement, any>,
+          ...args: any[]
+        ) => void
+      );
 
     this.gyAttribute
       .attr(
         'transform',
         'translate(' + this.chartPoints[0].yScaleWidth + ',' + 0 + ')'
       )
-      .call(axisLeft(yScale));
+      .call(
+        axisLeft(yScale as unknown as AxisScale<number>) as (
+          selection: Selection<SVGGElement, ChartPoint, HTMLElement, any>,
+          ...args: any[]
+        ) => void
+      );
   }
 
   private updateSingleLine(contentHeight: number, contentWidth: number): void {
@@ -287,18 +319,36 @@ export class ScLineChartComponent
       .range([contentHeight - this.chartPoints[0].xScaleHeight, 0]);
 
     this.d3Svg.selectAll('path').remove();
-    this.d3Svg
+    const mySvgPipe = this.d3Svg
       .append('path')
       .datum(this.chartPoints[0].chartPointList)
       .attr(
         'transform',
         'translate(' + this.chartPoints[0].yScaleWidth + ', 0)'
       )
-      .attr('class', 'line')
-      .attr('d', this.createLine(xScale, yScale) as any);
+      .attr('class', 'line');
+    //.attr('d', this.createLine(xScale, yScale) as any);
 
     this.updateScales(contentHeight, xScale, yScale);
     this.updateLegend();
+
+    mySvgPipe
+      .attr('d', this.createLine(xScale, yScale) as any)
+      .attr(
+        'stroke-dasharray',
+        (contentWidth - this.chartPoints[0].yScaleWidth) * 50 +
+          ' ' +
+          (contentWidth - this.chartPoints[0].yScaleWidth) * 50
+      )
+      .attr(
+        'stroke-dashoffset',
+        (contentWidth - this.chartPoints[0].yScaleWidth) * 50
+      )
+      .transition()
+      .duration(5000)
+      .ease(easeLinear)
+      .attr('stroke-dashoffset', 0);
+    // mySvgPipe.call(this.myTransition);
   }
 
   private createLine(

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "d3-array": "^3.0.0",
+    "d3-ease": "^3.0.0",
     "d3-axis": "^3.0.0",
     "d3-brush": "^3.0.0",
     "d3-color": "^3.0.0",

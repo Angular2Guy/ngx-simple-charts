@@ -346,7 +346,7 @@ export class ScLineChartComponent
       )
       .transition()
       .duration(5000)
-      .ease(easeLinear)
+      //.ease(easeLinear)
       .attr('stroke-dashoffset', 0);
     // mySvgPipe.call(this.myTransition);
   }

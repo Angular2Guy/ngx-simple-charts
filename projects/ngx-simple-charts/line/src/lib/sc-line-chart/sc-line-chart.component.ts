@@ -208,11 +208,14 @@ export class ScLineChartComponent
       .attr('d', this.createLine(xScale, yScale) as any)
       .attr(
         'stroke-dasharray',
-        this.chartPoints[0].chartPointList.length +
+        (contentWidth - this.chartPoints[0].yScaleWidth) * 100 +
           ' ' +
-          this.chartPoints[0].chartPointList.length
+          (contentWidth - this.chartPoints[0].yScaleWidth) * 100
       )
-      .attr('stroke-dashoffset', this.chartPoints[0].chartPointList.length)
+      .attr(
+        'stroke-dashoffset',
+        (contentWidth - this.chartPoints[0].yScaleWidth) * 100
+      )
       .transition()
       .duration(5000)
       .ease(easeLinear)
@@ -336,13 +339,13 @@ export class ScLineChartComponent
       .attr('d', this.createLine(xScale, yScale) as any)
       .attr(
         'stroke-dasharray',
-        (contentWidth - this.chartPoints[0].yScaleWidth) * 50 +
+        (contentWidth - this.chartPoints[0].yScaleWidth) * 100 +
           ' ' +
-          (contentWidth - this.chartPoints[0].yScaleWidth) * 50
+          (contentWidth - this.chartPoints[0].yScaleWidth) * 100
       )
       .attr(
         'stroke-dashoffset',
-        (contentWidth - this.chartPoints[0].yScaleWidth) * 50
+        (contentWidth - this.chartPoints[0].yScaleWidth) * 100
       )
       .transition()
       .duration(5000)

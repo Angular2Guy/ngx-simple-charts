@@ -22,6 +22,8 @@ The classes have to be overwritten with '::ng-deep' and the ViewEncapsulation.Sh
 
 The legend shows the names of the ChartPoints in the color that set for the lines. If one 'ChartPoints.name' should be replaced the 'replaceSymbol' has to be a string that the 'ChartPoints.name' includes and is replaced with the 'replaceName'.
 
+The Line Charts are animated.
+
 ## Bar Charts
 To use the bar chart component this module has to be imported: [NgxBarChartsModule](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/bar/src/lib/ngx-bar-charts.module.ts)
 
@@ -31,6 +33,8 @@ The bars are defined in the ChartBars interface. The interface for the chartPoin
 
 To enable styling of the chart these classes can be used: [Component.scss](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/bar/src/lib/sc-bar-chart/sc-bar-chart.component.scss)
 The classes have to be overwritten with '::ng-deep' and the ViewEncapsulation.ShadowDom is not supported for the enclosing component. To style multiple bars '::ng-deep' classes with the naming convention line-'ChartBar.x'(for example: 'bar-abc') with the name in lower case can be used. The ChartBar.x is filtered with this Regex: '[^a-zA-Z0-9\-]' that cuts off the name if a character is found that is not a letter, number or '-'(for example 'bar-Abc1.d' -> 'line-abc1') and changes it to lower case.
+
+The Bar Charts are animated.
 
 ## Some time in the future
 For more features pull requests are welcome.

@@ -218,9 +218,8 @@ export class ScLineChartComponent
       )
       .transition()
       .duration(5000)
-      .ease(easeLinear)
+      // .ease(easeLinear)
       .attr('stroke-dashoffset', 0);
-    // myD3Svg.call(this.myTransition as any);
   }
 
   private updateLegend(): void {
@@ -351,7 +350,6 @@ export class ScLineChartComponent
       .duration(5000)
       //.ease(easeLinear)
       .attr('stroke-dashoffset', 0);
-    // mySvgPipe.call(this.myTransition);
   }
 
   private createLine(

@@ -47,12 +47,12 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~13.0.1",
-    "@angular-eslint/builder": "^13.0.1",
-    "@angular-eslint/eslint-plugin": "^13.0.1",
-    "@angular-eslint/eslint-plugin-template": "^13.0.1",
-    "@angular-eslint/schematics": "^13.0.1",
-    "@angular-eslint/template-parser": "^13.0.1",
+    "@angular-devkit/build-angular": "~v14.0.0-alpha.0",
+    "@angular-eslint/builder": "^v14.0.0-alpha.0",
+    "@angular-eslint/eslint-plugin": "^v14.0.0-alpha.0",
+    "@angular-eslint/eslint-plugin-template": "^v14.0.0-alpha.0",
+    "@angular-eslint/schematics": "^v14.0.0-alpha.0",
+    "@angular-eslint/template-parser": "^v14.0.0-alpha.0",
     "@angular/cli": "~13.0.1",
     "@angular/compiler-cli": "~13.0.0",
     "@commitlint/cli": "^13.2.0",

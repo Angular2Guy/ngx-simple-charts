@@ -43,7 +43,6 @@
   },
   "cli": {
     "analytics": "fcdd0a54-3ae8-4c46-b905-9b032bc661e9",
-    "defaultCollection": "@angular-eslint/schematics"
-  },
-  "defaultProject": "ngx-simple-charts"
+    "schematicCollections": ["@angular-eslint/schematics"]
+  }
 }

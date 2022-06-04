@@ -1,6 +1,6 @@
 {
   "name": "ngx-simple-charts",
-  "version": "13.3.3",
+  "version": "14.0.0-alpha-0",
   "license": "Apache License Version 2.0",
   "scripts": {
     "ng": "ng",
@@ -22,14 +22,14 @@
   },
   "private": false,
   "dependencies": {
-    "@angular/animations": "~13.0.0",
-    "@angular/common": "~13.0.0",
-    "@angular/compiler": "~13.0.0",
-    "@angular/core": "~13.0.0",
-    "@angular/forms": "~13.0.0",
-    "@angular/platform-browser": "~13.0.0",
-    "@angular/platform-browser-dynamic": "~13.0.0",
-    "@angular/router": "~13.0.0",
+    "@angular/animations": "^14.0.0",
+    "@angular/common": "^14.0.0",
+    "@angular/compiler": "^14.0.0",
+    "@angular/core": "^14.0.0",
+    "@angular/forms": "^14.0.0",
+    "@angular/platform-browser": "^14.0.0",
+    "@angular/platform-browser-dynamic": "^14.0.0",
+    "@angular/router": "^14.0.0",
     "d3-array": "^3.0.0",
     "d3-ease": "^3.0.0",
     "d3-axis": "^3.0.0",
@@ -47,14 +47,14 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~v14.0.0-alpha.0",
+    "@angular-devkit/build-angular": "^v14.0.0-alpha.0",
     "@angular-eslint/builder": "^v14.0.0-alpha.0",
     "@angular-eslint/eslint-plugin": "^v14.0.0-alpha.0",
     "@angular-eslint/eslint-plugin-template": "^v14.0.0-alpha.0",
     "@angular-eslint/schematics": "^v14.0.0-alpha.0",
     "@angular-eslint/template-parser": "^v14.0.0-alpha.0",
-    "@angular/cli": "~13.0.1",
-    "@angular/compiler-cli": "~13.0.0",
+    "@angular/cli": "^14.0.0",
+    "@angular/compiler-cli": "^14.0.0",
     "@commitlint/cli": "^13.2.0",
     "@commitlint/config-conventional": "^13.2.0",
     "@types/d3-array": "^3.0.0",
@@ -85,13 +85,13 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "karma-junit-reporter": "~1.2.0",
-    "ng-packagr": "^13.0.3",
+    "ng-packagr": "^14.0.0",
     "prettier": "^2.4.1",
     "pretty-quick": "^3.1.1",
     "protractor": "~7.0.0",
     "standard-changelog": "^2.0.27",
     "standard-version": "^9.3.1",
     "ts-node": "~8.3.0",
-    "typescript": "~4.4.4"
+    "typescript": "~4.7.3"
   }
 }

@@ -15,4 +15,3 @@
  */
 
 export * from './lib/service/ngx-simple-charts.service';
-export * from './lib/ngx-simple-charts.module';

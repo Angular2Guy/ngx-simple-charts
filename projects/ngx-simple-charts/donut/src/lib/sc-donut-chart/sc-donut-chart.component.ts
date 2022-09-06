@@ -10,17 +10,110 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import { BaseType, ContainerElement, select, Selection } from 'd3-selection';
+import { Subject, Subscription } from 'rxjs';
+import { ChartSlice, ChartSlices } from './model/chart-slices';
+import { debounceTime } from 'rxjs/operators';
+import 'd3-transition';
+import { scaleOrdinal } from 'd3-scale';
+
+interface ResizeEvent {
+  type: string;
+}
 
 @Component({
   selector: 'sc-donut-chart',
   templateUrl: './sc-donut-chart.component.html',
   styleUrls: ['./sc-donut-chart.component.css'],
 })
-export class ScDonutChartComponent implements OnInit {
+export class ScDonutChartComponent
+  implements OnChanges, OnDestroy, AfterViewInit
+{
+  @ViewChild('svgchart', { static: true })
+  private chartContainer!: ElementRef;
+  d3Svg!: Selection<ContainerElement, ChartSlice, HTMLElement, any>;
+  private chartUpdateSubject = new Subject();
+  private chartUpdateSubscription!: Subscription;
+  @Input()
+  chartSlices!: ChartSlices;
+
   constructor() {}
 
-  ngOnInit(): void {
-    console.log('hallo');
+  ngAfterViewInit(): void {
+    this.d3Svg = select<ContainerElement, ChartSlice>(
+      this.chartContainer.nativeElement
+    );
+
+    this.chartUpdateSubscription = this.chartUpdateSubject
+      .pipe(debounceTime(100))
+      .subscribe(() => this.updateChart());
+    this.chartUpdateSubject.next({});
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes['chartBars'] && !changes['chartBars'].firstChange) {
+      this.chartUpdateSubject.next({});
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: ResizeEvent): void {
+    event && this.chartUpdateSubject.next({});
+  }
+
+  ngOnDestroy(): void {
+    this.chartUpdateSubject.complete();
+    this.chartUpdateSubscription.unsubscribe();
+  }
+
+  private updateChart(): void {
+    const contentWidth = isNaN(
+      parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10)
+    )
+      ? 0
+      : parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10);
+    const contentHeight = isNaN(
+      parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10)
+    )
+      ? 0
+      : parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10);
+
+    const innerRadius = Math.min(contentWidth, contentHeight) / 3; // inner radius of pie, in pixels (non-zero for donut)
+    const outerRadius = Math.min(contentWidth, contentHeight) / 2; // outer radius of pie, in pixels
+    const labelRadius = (innerRadius + outerRadius) / 2; // center radius of labels
+    const stroke = innerRadius > 0 ? 'none' : 'white'; // stroke separating widths
+    const strokeWidth = 1; // width of stroke separating wedges
+    const strokeLinejoin = 'round'; // line join of stroke separating wedges
+    const padAngle = stroke === 'none' ? 1 / outerRadius : 0;
+    //const color = scaleOrdinal()
+    //  .domain(["a", "b", "c", "d", "e", "f", "g", "h"])
+    //  .range(this.d3Svg.schemeDark2);
+
+    this.d3Svg.attr('viewBox', [0, 0, contentWidth, contentHeight] as any);
+
+    this.d3Svg.selectAll('g').remove();
+    const gxAttributeTemp = this.d3Svg.append('g');
+    const gxAttribute = gxAttributeTemp.attr('class', 'x-axis');
+    const gyAttributeTemp = this.d3Svg.append('g');
+    const gyAttribute = gyAttributeTemp.attr('class', 'y-axis');
+
+    this.d3Svg.selectAll('#my-chart').remove();
+    this.d3Svg
+      .append('g')
+      .attr('my-chart', 'my-chart')
+      .selectAll('#my-chart')
+      .data(this.chartSlices.chartSlices);
   }
 }

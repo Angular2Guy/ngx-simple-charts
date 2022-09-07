@@ -28,7 +28,7 @@ import { ChartSlice, ChartSlices } from './model/chart-slices';
 import { debounceTime } from 'rxjs/operators';
 import 'd3-transition';
 import { scaleOrdinal } from 'd3-scale';
-import { schemeSpectral } from 'd3-scale-chromatic';
+import { interpolateSpectral, schemeSpectral } from 'd3-scale-chromatic';
 import { arc, pie } from 'd3-shape';
 
 interface ResizeEvent {
@@ -99,12 +99,11 @@ export class ScDonutChartComponent
     const strokeWidth = 1; // width of stroke separating wedges
     const strokeLinejoin = 'round'; // line join of stroke separating wedges
     const padAngle = stroke === 'none' ? 1 / outerRadius : 0;
-    const colors =
-      schemeSpectral[
-        !this?.chartSlices?.chartSlices
-          ? 0
-          : this.chartSlices.chartSlices.length
-      ];
+    const colors = interpolateSpectral(
+      !this?.chartSlices?.chartSlices
+        ? 0
+        : this.chartSlices.chartSlices.length - 1
+    );
     const sliceNames = !this?.chartSlices?.chartSlices
       ? []
       : this.chartSlices.chartSlices.map((mySlice) => mySlice.name);

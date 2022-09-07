@@ -15,7 +15,7 @@ export interface ChartSlices {
   from: string;
   yScaleWidth: number;
   xScaleHeight: number;
-  chartSlices: ChartSlices[];
+  chartSlices: ChartSlice[];
 }
 
 export interface ChartSlice {

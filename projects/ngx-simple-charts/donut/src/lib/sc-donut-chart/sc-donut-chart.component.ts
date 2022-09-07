@@ -28,6 +28,8 @@ import { ChartSlice, ChartSlices } from './model/chart-slices';
 import { debounceTime } from 'rxjs/operators';
 import 'd3-transition';
 import { scaleOrdinal } from 'd3-scale';
+import { schemeSpectral } from 'd3-scale-chromatic';
+import { arc, pie } from 'd3-shape';
 
 interface ResizeEvent {
   type: string;
@@ -97,9 +99,22 @@ export class ScDonutChartComponent
     const strokeWidth = 1; // width of stroke separating wedges
     const strokeLinejoin = 'round'; // line join of stroke separating wedges
     const padAngle = stroke === 'none' ? 1 / outerRadius : 0;
-    //const color = scaleOrdinal()
-    //  .domain(["a", "b", "c", "d", "e", "f", "g", "h"])
-    //  .range(this.d3Svg.schemeDark2);
+    const colors =
+      schemeSpectral[
+        !this?.chartSlices?.chartSlices
+          ? 0
+          : this.chartSlices.chartSlices.length
+      ];
+    const sliceNames = !this?.chartSlices?.chartSlices
+      ? []
+      : this.chartSlices.chartSlices.map((mySlice) => mySlice.name);
+    const colorOrdinals = scaleOrdinal(sliceNames, colors);
+    const arcs = pie<ChartSlice[]>()
+      .padAngle(padAngle)
+      .sort(null)
+      .value((v, i) => v[i].value);
+    const myArc = arc().innerRadius(innerRadius).outerRadius(outerRadius);
+    const arcLabel = arc().innerRadius(labelRadius).outerRadius(labelRadius);
 
     this.d3Svg.attr('viewBox', [0, 0, contentWidth, contentHeight] as any);
 
@@ -113,7 +128,17 @@ export class ScDonutChartComponent
     this.d3Svg
       .append('g')
       .attr('my-chart', 'my-chart')
+      .attr('stroke', stroke)
+      .attr('stroke-width', strokeWidth)
+      .attr('stroke-linejoin', strokeLinejoin)
       .selectAll('#my-chart')
-      .data(this.chartSlices.chartSlices);
+      .data(arcs as unknown as number[])
+      .join('my-chart')
+      .attr('fill', (d, i) =>
+        colorOrdinals(this.chartSlices.chartSlices[i].name)
+      )
+      .attr('d', myArc as unknown as string)
+      .append('title')
+      .text(() => this.chartSlices.title);
   }
 }

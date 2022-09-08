@@ -111,7 +111,9 @@ export class ScDonutChartComponent
       .padAngle(padAngle)
       .sort(null)
       .value((v) => v.value);
-    const myArc = arc().innerRadius(innerRadius).outerRadius(outerRadius);
+    const myArc = arc<ChartSlice>()
+      .innerRadius(innerRadius)
+      .outerRadius(outerRadius);
     const arcLabel = arc().innerRadius(labelRadius).outerRadius(labelRadius);
 
     this.d3Svg.attr('viewBox', [0, 0, contentWidth, contentHeight] as any);
@@ -133,7 +135,7 @@ export class ScDonutChartComponent
       .data(arcs(slices))
       .join('my-chart')
       .attr('fill', (d, i) => colorOrdinals(slices[i].name))
-      .attr('d', myArc as unknown as string)
+      .attr('d', myArc as any)
       .append('title')
       .text(() => this.chartSlices.title);
   }

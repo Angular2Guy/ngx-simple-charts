@@ -30,6 +30,7 @@ import 'd3-transition';
 import { scaleOrdinal } from 'd3-scale';
 import { interpolateSpectral, schemeSpectral } from 'd3-scale-chromatic';
 import { arc, pie } from 'd3-shape';
+import { range } from 'd3-array';
 
 interface ResizeEvent {
   type: string;
@@ -38,7 +39,7 @@ interface ResizeEvent {
 @Component({
   selector: 'sc-donut-chart',
   templateUrl: './sc-donut-chart.component.html',
-  styleUrls: ['./sc-donut-chart.component.css'],
+  styleUrls: ['./sc-donut-chart.component.scss'],
 })
 export class ScDonutChartComponent
   implements OnChanges, OnDestroy, AfterViewInit
@@ -99,19 +100,17 @@ export class ScDonutChartComponent
     const strokeWidth = 1; // width of stroke separating wedges
     const strokeLinejoin = 'round'; // line join of stroke separating wedges
     const padAngle = stroke === 'none' ? 1 / outerRadius : 0;
-    const colors = interpolateSpectral(
-      !this?.chartSlices?.chartSlices
-        ? 0
-        : this.chartSlices.chartSlices.length - 1
-    );
-    const sliceNames = !this?.chartSlices?.chartSlices
+    const slices = !this?.chartSlices?.chartSlices
       ? []
-      : this.chartSlices.chartSlices.map((mySlice) => mySlice.name);
+      : this.chartSlices.chartSlices;
+    const colors = interpolateSpectral(slices.length);
+    const sliceNames = slices.map((mySlice) => mySlice.name);
     const colorOrdinals = scaleOrdinal(sliceNames, colors);
-    const arcs = pie<ChartSlice[]>()
+    const ids = range(slices.length).filter((i) => !isNaN(slices[i]?.value));
+    const arcs = pie<ChartSlice>()
       .padAngle(padAngle)
       .sort(null)
-      .value((v, i) => v[i].value);
+      .value((v) => v.value);
     const myArc = arc().innerRadius(innerRadius).outerRadius(outerRadius);
     const arcLabel = arc().innerRadius(labelRadius).outerRadius(labelRadius);
 
@@ -131,11 +130,9 @@ export class ScDonutChartComponent
       .attr('stroke-width', strokeWidth)
       .attr('stroke-linejoin', strokeLinejoin)
       .selectAll('#my-chart')
-      .data(arcs as unknown as number[])
+      .data(arcs(slices))
       .join('my-chart')
-      .attr('fill', (d, i) =>
-        colorOrdinals(this.chartSlices.chartSlices[i].name)
-      )
+      .attr('fill', (d, i) => colorOrdinals(slices[i].name))
       .attr('d', myArc as unknown as string)
       .append('title')
       .text(() => this.chartSlices.title);

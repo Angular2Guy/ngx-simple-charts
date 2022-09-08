@@ -65,7 +65,7 @@ export class ScDonutChartComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes['chartBars'] && !changes['chartBars'].firstChange) {
+    if (!!changes['chartSlices'] && !changes['chartSlices'].firstChange) {
       this.chartUpdateSubject.next({});
     }
   }

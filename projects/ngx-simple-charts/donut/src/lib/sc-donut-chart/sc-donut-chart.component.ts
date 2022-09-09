@@ -119,21 +119,22 @@ export class ScDonutChartComponent
     this.d3Svg.attr('viewBox', [0, 0, contentWidth, contentHeight] as any);
 
     this.d3Svg.selectAll('g').remove();
-    const gxAttributeTemp = this.d3Svg.append('g');
-    const gxAttribute = gxAttributeTemp.attr('class', 'x-axis');
-    const gyAttributeTemp = this.d3Svg.append('g');
-    const gyAttribute = gyAttributeTemp.attr('class', 'y-axis');
+    //const gxAttributeTemp = this.d3Svg.append('g');
+    //const gxAttribute = gxAttributeTemp.attr('class', 'x-axis');
+    //const gyAttributeTemp = this.d3Svg.append('g');
+    //const gyAttribute = gyAttributeTemp.attr('class', 'y-axis');
 
-    this.d3Svg.selectAll('#my-chart').remove();
+    this.d3Svg.selectAll('path').remove();
     this.d3Svg
       .append('g')
       .attr('my-chart', 'my-chart')
+      .attr('transform', `translate(${contentWidth / 2},${contentHeight / 2})`)
       .attr('stroke', stroke)
       .attr('stroke-width', strokeWidth)
       .attr('stroke-linejoin', strokeLinejoin)
-      .selectAll('#my-chart')
+      .selectAll('path')
       .data(arcs(slices))
-      .join('my-chart')
+      .join('path')
       .attr('fill', (d, i) => colorOrdinals(slices[i].name))
       .attr('d', myArc as any)
       .append('title')

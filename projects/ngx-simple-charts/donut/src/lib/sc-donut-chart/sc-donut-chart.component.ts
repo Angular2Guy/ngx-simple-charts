@@ -103,10 +103,10 @@ export class ScDonutChartComponent
     const slices = !this?.chartSlices?.chartSlices
       ? []
       : this.chartSlices.chartSlices;
-    const colors = interpolateSpectral(slices.length);
+    const ids = range(slices.length).filter((i) => !isNaN(slices[i]?.value));
+    const colors = ids.map((myId) => interpolateSpectral(myId));
     const sliceNames = slices.map((mySlice) => mySlice.name);
     const colorOrdinals = scaleOrdinal(sliceNames, colors);
-    const ids = range(slices.length).filter((i) => !isNaN(slices[i]?.value));
     const arcs = pie<ChartSlice>()
       .padAngle(padAngle)
       .sort(null)

@@ -119,10 +119,6 @@ export class ScDonutChartComponent
     this.d3Svg.attr('viewBox', [0, 0, contentWidth, contentHeight] as any);
 
     this.d3Svg.selectAll('g').remove();
-    //const gxAttributeTemp = this.d3Svg.append('g');
-    //const gxAttribute = gxAttributeTemp.attr('class', 'x-axis');
-    //const gyAttributeTemp = this.d3Svg.append('g');
-    //const gyAttribute = gyAttributeTemp.attr('class', 'y-axis');
 
     this.d3Svg.selectAll('path').remove();
     this.d3Svg
@@ -139,5 +135,24 @@ export class ScDonutChartComponent
       .attr('d', myArc as any)
       .append('title')
       .text(() => this.chartSlices.title);
+
+    this.d3Svg
+      .append('g')
+      .attr('font-family', 'sans-serif')
+      .attr('font-size', 10)
+      .attr('text-anchor', 'middle')
+      .selectAll('text')
+      .data(arcs(slices))
+      .join('text')
+      .attr('transform', (d) => {
+        const result = arcLabel.centroid(d as any);
+        result[0] = result[0] + contentWidth / 2;
+        result[1] = result[1] + contentHeight / 2;
+        return `translate(${result})`;
+      })
+      .selectAll('tspan')
+      .data((d) => [d])
+      .join('tspan')
+      .text((d) => d?.data?.name);
   }
 }

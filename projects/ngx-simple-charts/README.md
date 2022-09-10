@@ -36,5 +36,12 @@ The classes have to be overwritten with '::ng-deep' and the ViewEncapsulation.Sh
 
 The Bar Charts are animated.
 
+## Donut Charts
+To use the bar chart component this module has to be imported: [NgxDonutChartsModule](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/donut/src/lib/ngx-donut-charts.module.ts)
+
+Then the component can be used: [<sc-donut-chart [chartSlices]="..."></sc-donut-chart>](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/donut/src/lib/sc-donut-chart/sc-donut-chart.component.ts)
+
+The slices are defined in the ChartSlices interface. The interface for the chartSlices can be found here: [ChartSlices](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/donut/src/lib/sc-donut-chart/model/chart-slices.ts)
+
 ## Some time in the future
 For more features pull requests are welcome.

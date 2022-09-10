@@ -21,4 +21,5 @@ export interface ChartSlices {
 export interface ChartSlice {
   value: number;
   name: string;
+  color?: string;
 }

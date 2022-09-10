@@ -1,6 +1,6 @@
 {
   "name": "ngx-simple-charts",
-  "version": "14.1.0",
+  "version": "14.1.1",
   "license": "Apache License Version 2.0",
   "scripts": {
     "ng": "ng",
@@ -31,18 +31,18 @@
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
     "d3-array": "^3.0.0",
-    "d3-ease": "^3.0.0",
     "d3-axis": "^3.0.0",
     "d3-brush": "^3.0.0",
     "d3-color": "^3.0.0",
+    "d3-ease": "^3.0.0",
     "d3-format": "^3.0.0",
     "d3-interpolate": "^3.0.0",
     "d3-scale": "^4.0.0",
+    "d3-scale-chromatic": "^3.0.0",
     "d3-selection": "^3.0.0",
     "d3-shape": "^3.0.0",
     "d3-time-format": "^4.0.0",
     "d3-transition": "^3.0.0",
-    "d3-scale-chromatic": "^3.0.0",
     "rxjs": "^7.4.0",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"

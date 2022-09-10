@@ -43,5 +43,7 @@ Then the component can be used: [<sc-donut-chart [chartSlices]="..."></sc-donut-
 
 The slices are defined in the ChartSlices interface. The interface for the chartSlices can be found here: [ChartSlices](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/donut/src/lib/sc-donut-chart/model/chart-slices.ts)
 
+To enable styling the optional 'color' property of the ChartSlice can be used to provide a custom color. It needs to be in Css color format. 
+
 ## Some time in the future
 For more features pull requests are welcome.

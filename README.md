@@ -1,6 +1,6 @@
 # NgxSimpleCharts
 
-This is a small chart library for Angular based on D3js. It currently supports single line and multi line charts with a legend. Bar charts are now supported too. The Bar charts and line charts are in separate entry points to enable the Angular Compiler to  put only the required code in the modules that use the features. Its purpose is to enable fast updates to new Angular versions. To enable the fast updates and due to limited time the library will continue have a small feature set. 
+This is a small chart library for Angular based on D3js. It currently supports single line and multi line charts with a legend. Bar and Donut charts are now supported too. The Bar charts and line charts are in separate entry points to enable the Angular Compiler to  put only the required code in the modules that use the features. Its purpose is to enable fast updates to new Angular versions. To enable the fast updates and due to limited time the library will continue have a small feature set. 
 
 ## Minimum Supported Angular Version
 Angular 14

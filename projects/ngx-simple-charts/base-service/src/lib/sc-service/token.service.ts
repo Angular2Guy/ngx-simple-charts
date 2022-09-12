@@ -22,7 +22,10 @@ import {
   retry,
 } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { SimpleChartsConfig } from './model/simple-charts-config';
+import {
+  MODULE_CONFIG,
+  SimpleChartsConfig,
+} from './model/simple-charts-config';
 //import { NgxSimpleChartsModule } from '../ngx-simple-charts.module';
 
 export interface RefreshTokenResponse {
@@ -44,7 +47,7 @@ export class TokenService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    @Inject(NORMAL_LIB_CONFIG) private moduleConfig: SimpleChartsConfig
+    @Inject(MODULE_CONFIG) private moduleConfig: SimpleChartsConfig
   ) {}
 
   private refreshToken(): Observable<RefreshTokenResponse> {

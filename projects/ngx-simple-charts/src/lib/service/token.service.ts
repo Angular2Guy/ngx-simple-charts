@@ -22,15 +22,15 @@ import {
   retry,
 } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { NgxSimpleChartsModule } from '../ngx-simple-charts.module';
+import { SimpleChartsConfig } from './model/simple-charts-config';
+//import { NgxSimpleChartsModule } from '../ngx-simple-charts.module';
 
 export interface RefreshTokenResponse {
   refreshToken: string;
 }
 
-@Injectable({
-  providedIn: NgxSimpleChartsModule,
-})
+@Injectable()
+//{providedIn: NgxSimpleChartsModule}
 export class TokenService {
   private myTokenCache!: Observable<RefreshTokenResponse>;
   private readonly CACHE_SIZE = 1;
@@ -41,10 +41,17 @@ export class TokenService {
   private stopTimer!: Subject<boolean>;
   public secUntilNextLogin = 0;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private moduleConfig: SimpleChartsConfig
+  ) {}
 
   private refreshToken(): Observable<RefreshTokenResponse> {
-    return this.http.get<RefreshTokenResponse>('/rest/auth/refreshToken', {
+    const path = !this.moduleConfig?.tokenRefreshPath
+      ? '/rest/auth/refreshToken'
+      : this.moduleConfig?.tokenRefreshPath;
+    return this.http.get<RefreshTokenResponse>(path, {
       headers: this.createTokenHeader(),
     });
   }
@@ -60,8 +67,11 @@ export class TokenService {
   }
 
   public logout(): void {
+    const path = !this.moduleConfig?.logoutPath
+      ? '/rest/auth/logout'
+      : this.moduleConfig?.logoutPath;
     this.http
-      .put<boolean>('/rest/auth/logout', {
+      .put<boolean>(path, {
         headers: this.createTokenHeader(),
       })
       .pipe(tap(() => this.clear()))
@@ -79,7 +89,10 @@ export class TokenService {
     (this.myTokenCache as unknown) = null;
     (this.myToken as unknown) = null;
     (this.myUserId as unknown) = null;
-    this.router.navigate(['/login']);
+    const loginRoute = !this.moduleConfig?.loginRoute
+      ? '/login'
+      : this.moduleConfig.loginRoute;
+    this.router.navigate([loginRoute]);
   }
 
   public get tokenStream(): Observable<string> {

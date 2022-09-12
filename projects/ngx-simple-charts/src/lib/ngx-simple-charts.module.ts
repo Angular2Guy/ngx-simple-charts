@@ -10,10 +10,31 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SimpleChartsConfig } from './service/model/simple-charts-config';
+import { TokenService } from './service/token.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './service/token.interceptor';
 
 @NgModule({
   imports: [CommonModule],
 })
-export class NgxSimpleChartsModule {}
+export class NgxSimpleChartsModule {
+  static forRoot(
+    config: SimpleChartsConfig
+  ): ModuleWithProviders<NgxSimpleChartsModule> {
+    return {
+      ngModule: NgxSimpleChartsModule,
+      providers: [
+        TokenService,
+        { provide: SimpleChartsConfig, useValue: config },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: TokenInterceptor,
+          multi: true,
+        },
+      ],
+    };
+  }
+}

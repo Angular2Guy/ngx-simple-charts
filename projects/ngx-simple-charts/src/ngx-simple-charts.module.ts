@@ -12,13 +12,17 @@
  */
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SimpleChartsConfig } from './service/model/simple-charts-config';
+import {
+  MODULE_CONFIG,
+  SimpleChartsConfig,
+} from './service/model/simple-charts-config';
 import { TokenService } from './service/token.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './service/token.interceptor';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
 })
 export class NgxSimpleChartsModule {
   static forRoot(
@@ -28,7 +32,7 @@ export class NgxSimpleChartsModule {
       ngModule: NgxSimpleChartsModule,
       providers: [
         TokenService,
-        { provide: SimpleChartsConfig, useValue: config },
+        { provide: MODULE_CONFIG, useValue: config },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: TokenInterceptor,

@@ -14,4 +14,6 @@
  * Public API Surface of ngx-simple-charts
  */
 
-export * from './lib/service/ngx-simple-charts.service';
+export * from './service/ngx-simple-charts.service';
+export * from './ngx-simple-charts.module';
+export * from './service/model/simple-charts-config';

@@ -10,7 +10,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable, timer, Subscription, Subject } from 'rxjs';
 import {
@@ -44,7 +44,7 @@ export class TokenService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private moduleConfig: SimpleChartsConfig
+    @Inject(NORMAL_LIB_CONFIG) private moduleConfig: SimpleChartsConfig
   ) {}
 
   private refreshToken(): Observable<RefreshTokenResponse> {
@@ -129,4 +129,8 @@ export class TokenService {
   public set userId(userId: number) {
     this.myUserId = userId;
   }
+}
+
+function NORMAL_LIB_CONFIG(NORMAL_LIB_CONFIG: any) {
+  throw new Error('Function not implemented.');
 }

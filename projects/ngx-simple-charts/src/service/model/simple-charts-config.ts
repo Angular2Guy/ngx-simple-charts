@@ -10,10 +10,12 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-export class SimpleChartsConfig {
-  constructor(
-    public tokenRefreshPath: string,
-    public logoutPath: string,
-    public loginRoute: string
-  ) {}
+import { InjectionToken } from '@angular/core';
+
+export interface SimpleChartsConfig {
+  tokenRefreshPath: string;
+  logoutPath: string;
+  loginRoute: string;
 }
+
+export const MODULE_CONFIG = new InjectionToken('MODULE_CONFIG');

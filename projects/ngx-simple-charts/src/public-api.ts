@@ -17,3 +17,5 @@
 export * from './service/ngx-simple-charts.service';
 export * from './ngx-simple-charts.module';
 export * from './service/model/simple-charts-config';
+export * from './service/token.service';
+export * from './service/token.interceptor';

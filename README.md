@@ -45,5 +45,12 @@ The slices are defined in the ChartSlices interface. The interface for the chart
 
 To enable styling the optional 'color' property of the ChartSlice can be used to provide a custom color. It needs to be in Css color format. 
 
+## Token Services
+The services/interceptors for the Jwt token handling are now included. 
+
+To use the token handling this module has to be imported: [NgxServiceModule](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/base-service/src/lib/ngx-service.module.ts)
+
+Examples howto use it can be found in the [AngularAndSpring](https://github.com/Angular2Guy/AngularAndSpring) and [AngularPortfolioMgr](https://github.com/Angular2Guy/AngularPortfolioMgr) projects.
+
 ## Some time in the future
 For more features pull requests are welcome.

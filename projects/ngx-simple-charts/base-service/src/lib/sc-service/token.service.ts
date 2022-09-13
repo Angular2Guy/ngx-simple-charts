@@ -39,7 +39,7 @@ export class TokenService {
   private readonly CACHE_SIZE = 1;
   private readonly REFRESH_INTERVAL = 45000; //45 sec
   private myToken!: string;
-  private myUserId!: number;
+  private myUserId!: number | string;
   private myTokenSubscription!: Subscription;
   private stopTimer!: Subject<boolean>;
   public secUntilNextLogin = 0;
@@ -125,11 +125,11 @@ export class TokenService {
     }
   }
 
-  public get userId(): number {
+  public get userId(): number | string {
     return this.myUserId;
   }
 
-  public set userId(userId: number) {
+  public set userId(userId: number | string) {
     this.myUserId = userId;
   }
 }

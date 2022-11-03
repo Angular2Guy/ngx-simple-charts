@@ -1,6 +1,6 @@
 # NgxSimpleCharts
 
-This is a small chart library for Angular based on D3js. It currently supports single line and multi line charts with a legend. Bar charts are now supported too. The Bar charts and line charts are in separate entry points to enable the Angular Compiler to  put only the required code in the modules that use the features. Its purpose is to enable fast updates to new Angular versions. To enable the fast updates and due to limited time the library will continue have a small feature set. 
+This is a small chart library for Angular based on D3js. It currently supports single line and multi line charts with a legend. Bar and Donut charts are now supported too. The token service and token interceptor are now included in a configurable manner. The Bar charts, line charts, donut charts and the services are in separate entry points to enable the Angular Compiler to  put only the required code in the modules that use the features. Its purpose is to enable fast updates to new Angular versions. To enable the fast updates and due to limited time the library will continue have a small feature set. 
 
 ## Minimum Supported Angular Version
 Angular 14
@@ -9,6 +9,8 @@ Angular 14
 * [Developing and Using Angular Libraries](https://angular2guy.wordpress.com/2021/07/31/developing-and-using-angular-libraries/)
 * [Ngx-Simple-Charts multiline and legend support howto](https://angular2guy.wordpress.com/2021/10/02/ngx-simple-charts-multiline-and-legend-support-howto/)
 * [Multiple Entry Points for the NgxSimpleCharts Angular Library](https://angular2guy.wordpress.com/2021/12/26/multiple-entry-points-for-ngxsimplecharts-angular-library/)
+* [Donut Charts are added to the Ngx-Simple-Charts library](https://angular2guy.wordpress.com/2022/09/10/donut-charts-are-added-to-the-ngx-simple-charts-library/)
+* [Configurable Services in the NgxSimpleCharts library](https://angular2guy.wordpress.com/2022/09/13/configurable-services-in-the-ngx-simple-charts-library/)
 
 ## Line Charts
 To use the line chart component this module has to be imported: [NgxLineChartsModule](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/line/src/lib/ngx-line-charts.module.ts)
@@ -39,9 +41,20 @@ The Bar Charts are animated.
 ## Donut Charts
 To use the bar chart component this module has to be imported: [NgxDonutChartsModule](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/donut/src/lib/ngx-donut-charts.module.ts)
 
-Then the component can be used: [<sc-donut-chart [chartSlices]="..."></sc-donut-chart>](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/donut/src/lib/sc-donut-chart/sc-donut-chart.component.ts)
+Then the component can be used: [<sc-donut-chart [chartState]="..." [chartSlices]="..."></sc-donut-chart>](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/donut/src/lib/sc-donut-chart/sc-donut-chart.component.ts)
 
 The slices are defined in the ChartSlices interface. The interface for the chartSlices can be found here: [ChartSlices](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/donut/src/lib/sc-donut-chart/model/chart-slices.ts)
+
+The chartState is a string with the values of 'ready' or 'not-ready'. The animation starts when 'not-ready' is set to 'ready'.
+
+To enable styling the optional 'color' property of the ChartSlice can be used to provide a custom color. It needs to be in Css color format. 
+
+## Token Services
+The services/interceptors for the Jwt token handling are now included. 
+
+To use the token handling this module has to be imported: [NgxServiceModule](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/base-service/src/lib/ngx-service.module.ts)
+
+Examples howto use it can be found in the [AngularAndSpring](https://github.com/Angular2Guy/AngularAndSpring) and [AngularPortfolioMgr](https://github.com/Angular2Guy/AngularPortfolioMgr) projects.
 
 ## Some time in the future
 For more features pull requests are welcome.

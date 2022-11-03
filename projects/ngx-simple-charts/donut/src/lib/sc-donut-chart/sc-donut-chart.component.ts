@@ -18,17 +18,23 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { BaseType, ContainerElement, select, Selection } from 'd3-selection';
+import {
+  trigger,
+  style,
+  animate,
+  transition,
+  group,
+} from '@angular/animations';
+import { ContainerElement, select, Selection } from 'd3-selection';
 import { Subject, Subscription } from 'rxjs';
 import { ChartSlice, ChartSlices } from './model/chart-slices';
 import { debounceTime } from 'rxjs/operators';
 import 'd3-transition';
 import { scaleOrdinal } from 'd3-scale';
-import { interpolateSpectral, schemeSpectral } from 'd3-scale-chromatic';
+import { interpolateSpectral } from 'd3-scale-chromatic';
 import { arc, pie } from 'd3-shape';
 import { range } from 'd3-array';
 
@@ -40,6 +46,17 @@ interface ResizeEvent {
   selector: 'sc-donut-chart',
   templateUrl: './sc-donut-chart.component.html',
   styleUrls: ['./sc-donut-chart.component.scss'],
+  animations: [
+    trigger('fadeInGrow', [
+      transition('* => ready', [
+        style({ opacity: 0, transform: 'scale(0.1)' }),
+        group([
+          animate('300ms linear', style({ opacity: 1 })),
+          animate('1000ms linear', style({ transform: 'scale(1)' })),
+        ]),
+      ]),
+    ]),
+  ],
 })
 export class ScDonutChartComponent
   implements OnChanges, OnDestroy, AfterViewInit
@@ -51,6 +68,8 @@ export class ScDonutChartComponent
   private chartUpdateSubscription!: Subscription;
   @Input()
   chartSlices!: ChartSlices;
+  @Input()
+  chartState: 'ready' | 'not-ready' = 'not-ready';
 
   constructor() {}
 

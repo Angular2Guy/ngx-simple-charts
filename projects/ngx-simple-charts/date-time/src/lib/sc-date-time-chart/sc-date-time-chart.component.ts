@@ -47,9 +47,9 @@ export class ScDateTimeChartComponent
   protected readonly CURRENT_TIME = 'currentTime';
 
   @ViewChild('timeChart')
-  private timeChartRef: ElementRef;
+  private timeChartRef: ElementRef | null = null;
   @ViewChild('headerLine')
-  private headerLineRef: ElementRef;
+  private headerLineRef: ElementRef | null = null;
 
   constructor(@Inject(LOCALE_ID) locale: string) {
     super(locale);
@@ -210,7 +210,7 @@ export class ScDateTimeChartComponent
         ? []
         : lineKeyToItems.get(myItem.lineId);
       myItems?.push(myItem);
-      lineKeyToItems.set(myItem.lineId, myItems);
+      lineKeyToItems.set(myItem.lineId, myItems as ChartItem<Event>[]);
     });
     for (; this.lineKeyToItems.length > 0; this.lineKeyToItems.pop()) {}
     for (let key of lineKeyToItems.keys()) {

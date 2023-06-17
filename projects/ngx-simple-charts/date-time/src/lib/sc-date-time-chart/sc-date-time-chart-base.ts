@@ -15,8 +15,8 @@ import { ChartItem } from './model/chart-item';
 
 export class ScDateTimeChartBase {
   protected localStart = new Date();
-  protected localShowDays: boolean;
-  protected end: Date;
+  protected localShowDays: boolean = false;
+  protected end: Date | null = null;
   protected localItems: ChartItem<Event>[] = [];
   protected periodDays: DateTime[] = [];
   protected periodMonths: DateTime[] = [];

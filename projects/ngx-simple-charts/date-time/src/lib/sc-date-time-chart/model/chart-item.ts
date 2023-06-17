@@ -13,12 +13,12 @@
 import { EventEmitter } from '@angular/core';
 
 export class ChartItem<T extends Event> {
-  id: number;
-  lineId: string;
-  name: string;
-  details: string;
-  start: Date;
-  end: Date;
+  id: number = -1;
+  lineId: string = '';
+  name: string = '';
+  details: string = '';
+  start: Date | null = null;
+  end: Date | null = null;
   eventEmitter = new EventEmitter<T>();
   cssClass = '';
   headerAnchorId = '';

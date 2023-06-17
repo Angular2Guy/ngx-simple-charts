@@ -38,10 +38,7 @@ export class ScDateTimeChartBase {
       .filter((myStart) => !!myStart)
       .reduce(
         (acc, myItem) =>
-          (myItem as ChartItem<Event>).valueOf() <
-          (acc as ChartItem<Event>).valueOf()
-            ? myItem
-            : acc,
+          (myItem as Date).valueOf() < (acc as Date).valueOf() ? myItem : acc,
         new Date()
       ) as Date;
     //console.log(this.localStart);
@@ -59,18 +56,21 @@ export class ScDateTimeChartBase {
       .setLocale(this.locale)
       .setZone(Intl.DateTimeFormat().resolvedOptions().timeZone)
       .toJSDate();
-    const lastEndItem = this.localItems.reduce(
-      (acc, newItem) =>
-        !!newItem && acc?.end?.valueOf() < newItem?.end?.valueOf()
-          ? newItem
-          : acc,
-      myItem
-    );
+    const lastEndItem = this.localItems.reduce((acc, newItem) => {
+      const accEnd = !!acc?.end?.valueOf() ? acc?.end?.valueOf() : -1;
+      const newItemEnd = !!newItem?.end?.valueOf()
+        ? newItem?.end?.valueOf()
+        : -1;
+      return accEnd < newItemEnd ? newItem : acc;
+    });
     const openEndItems = this.localItems.filter((newItem) => !newItem?.end);
+    const lastEndYear = !!lastEndItem?.end?.getFullYear()
+      ? lastEndItem!.end.getFullYear()
+      : -1;
     this.end =
       openEndItems.length > 0 || !this.localShowDays
         ? endOfYear
-        : !!lastEndItem && lastEndItem?.end?.getFullYear() < 1
+        : lastEndYear < 1
         ? endOfYear
         : lastEndItem.end;
     this.periodDays = [];

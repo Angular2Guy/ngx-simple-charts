@@ -8,6 +8,7 @@
     "d3",
     "luxon",
     "@angular/material",
-    "@angular/cdk"
+    "@angular/cdk",
+    "material-icons"
   ]
 }

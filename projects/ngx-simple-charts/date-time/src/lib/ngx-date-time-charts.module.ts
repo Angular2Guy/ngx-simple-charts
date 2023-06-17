@@ -21,4 +21,4 @@ import { ScDateTimeChartComponent } from './sc-date-time-chart/sc-date-time-char
   imports: [CommonModule, MatIconModule, MatTooltipModule],
   exports: [ScDateTimeChartComponent],
 })
-export class NgxLineChartsModule {}
+export class NgxDateTimeChartsModule {}

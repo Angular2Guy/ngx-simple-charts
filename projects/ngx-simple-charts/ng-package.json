@@ -20,8 +20,6 @@
     "d3-transition",
     "d3-scale-chromatic",
     "luxon",
-    "@angular/material",
-    "@angular/cdk",
     "material-icons"
   ]
 }

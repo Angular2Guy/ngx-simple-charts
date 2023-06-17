@@ -29,6 +29,9 @@
     "@angular/platform-browser": "^16.0.0",
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
+    "@angular/cdk": "^16.0.0",
+    "@angular/material": "^16.0.0",
+    "material-icons": "^1.11.11",
     "d3-array": "^3.0.0",
     "d3-axis": "^3.0.0",
     "d3-brush": "^3.0.0",
@@ -42,6 +45,7 @@
     "d3-shape": "^3.0.0",
     "d3-time-format": "^4.0.0",
     "d3-transition": "^3.0.0",
+    "luxon": "^3.2.1",
     "rxjs": "^7.4.0",
     "tslib": "^2.3.1",
     "zone.js": "~0.13.0"

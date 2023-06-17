@@ -9,6 +9,10 @@
     "rxjs": "^7.4.0"
   },
   "dependencies": {
+    "luxon": "^3.2.1",
+    "@angular/cdk": "^16.0.0",
+    "@angular/material": "^16.0.0",
+    "material-icons": "^1.11.11",
     "d3-array": "^3.0.0",
     "d3-ease": "^3.0.0",
     "d3-axis": "^3.0.0",

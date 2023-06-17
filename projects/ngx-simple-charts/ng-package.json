@@ -4,5 +4,10 @@
   "lib": {
     "entryFile": "src/public-api.ts"
   },
-  "allowedNonPeerDependencies": ["d3", "luxon", "@angular/material"]
+  "allowedNonPeerDependencies": [
+    "d3",
+    "luxon",
+    "@angular/material",
+    "@angular/cdk"
+  ]
 }

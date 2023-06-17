@@ -151,7 +151,7 @@ export class ScDateTimeChartComponent
   }
 
   protected calcStartPxItem(item: ChartItem<Event>): number {
-    return this.calcStartPx(item.start);
+    return this.calcStartPx(item.start as Date);
   }
 
   protected calcEndPxItem(item: ChartItem<Event>): number {

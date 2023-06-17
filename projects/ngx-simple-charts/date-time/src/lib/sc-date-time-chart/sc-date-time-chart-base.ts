@@ -35,10 +35,15 @@ export class ScDateTimeChartBase {
     }
     this.localStart = this.localItems
       .map((myItem) => myItem.start)
+      .filter((myStart) => !!myStart)
       .reduce(
-        (acc, myItem) => (myItem.valueOf() < acc.valueOf() ? myItem : acc),
+        (acc, myItem) =>
+          (myItem as ChartItem<Event>).valueOf() <
+          (acc as ChartItem<Event>).valueOf()
+            ? myItem
+            : acc,
         new Date()
-      );
+      ) as Date;
     //console.log(this.localStart);
     const startOfChart = DateTime.fromJSDate(this.localStart)
       .setLocale(this.locale)
@@ -56,14 +61,16 @@ export class ScDateTimeChartBase {
       .toJSDate();
     const lastEndItem = this.localItems.reduce(
       (acc, newItem) =>
-        acc?.end?.valueOf() < newItem?.end?.valueOf() ? newItem : acc,
+        !!newItem && acc?.end?.valueOf() < newItem?.end?.valueOf()
+          ? newItem
+          : acc,
       myItem
     );
     const openEndItems = this.localItems.filter((newItem) => !newItem?.end);
     this.end =
       openEndItems.length > 0 || !this.localShowDays
         ? endOfYear
-        : lastEndItem.end.getFullYear() < 1
+        : !!lastEndItem && lastEndItem?.end?.getFullYear() < 1
         ? endOfYear
         : lastEndItem.end;
     this.periodDays = [];

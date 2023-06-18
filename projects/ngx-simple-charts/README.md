@@ -1,6 +1,6 @@
 # NgxSimpleCharts
 
-This is a small chart library for Angular based on D3js. It currently supports single line and multi line charts with a legend. Bar and Donut charts are now supported too. The token service and token interceptor are now included in a configurable manner. The Bar charts, line charts, donut charts and the services are in separate entry points to enable the Angular Compiler to  put only the required code in the modules that use the features. Its purpose is to enable fast updates to new Angular versions. To enable the fast updates and due to limited time the library will continue have a small feature set. 
+This is a small chart library for Angular based on D3js. It currently supports single line and multi line charts with a legend. Bar and Donut charts are now supported too. The token service and token interceptor are now included in a configurable manner. The Bar charts, line charts, donut, and Date/Timeline  charts and the services are in separate entry points to enable the Angular Compiler to  put only the required code in the modules that use the features. Its purpose is to enable fast updates to new Angular versions. To enable the fast updates and due to limited time the library will continue have a small feature set.
 
 ## Minimum Supported Angular Version
 Angular 16
@@ -48,6 +48,13 @@ The slices are defined in the ChartSlices interface. The interface for the chart
 The chartState is a string with the values of 'ready' or 'not-ready'. The animation starts when 'not-ready' is set to 'ready'.
 
 To enable styling the optional 'color' property of the ChartSlice can be used to provide a custom color. It needs to be in Css color format. 
+
+## Date/TimeLine Charts
+This is a scolling chart to display time periods in bars vertically in units of years or months. 
+To use the Date/Timeline chart componnent this module has to be imported: [NgxDateTimeChartsModule](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/date-time/src/lib/ngx-date-time-charts.module.ts)
+
+Then the component can be used: [<sc-date-time-chart [showDays]="..." [items]="..."></sc-date-time-chart>](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/date-time/src/lib/sc-date-time-chart/sc-date-time-chart.component.ts)
+The property 'showDays' switches the on the view with months and days and the 'items' property contains the [ChartItems](https://github.com/Angular2Guy/ngx-simple-charts/blob/master/projects/ngx-simple-charts/date-time/src/lib/sc-date-time-chart/model/chart-item.ts) to display.
 
 ## Token Services
 The services/interceptors for the Jwt token handling are now included. 

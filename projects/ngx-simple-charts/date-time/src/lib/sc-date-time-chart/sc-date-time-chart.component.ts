@@ -71,9 +71,10 @@ export class ScDateTimeChartComponent
             : this.monthHeaderAnchorIds[myPeriodIndex]
         );
       }
+      this.calcTimeChartValues();
     }, 1000);
     //console.log(this.timeChartHeight);
-    console.log(this.headerLineRef?.nativeElement?.clientHeight);
+    //console.log(this.headerLineRef?.nativeElement?.clientHeight);
   }
 
   ngOnInit(): void {

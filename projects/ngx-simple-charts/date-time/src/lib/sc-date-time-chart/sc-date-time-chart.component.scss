@@ -78,8 +78,8 @@
 }
 
 .current-time {
-  border: 1px solid #000000;
+  border: 1px solid #0000ff;
   width: 0px;
-  height: 100%;
   position: absolute;
+  z-index: 1;
 }

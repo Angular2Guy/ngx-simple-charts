@@ -63,6 +63,14 @@
       class="chart-line"
       *ngFor="let myItems of lineKeyToItems"
       [style.height.px]="chartLineHeight"
+      #tooltip="matTooltip"
+      [matTooltip]="
+        !myItems.items[0]?.name && !myItems.items[0]?.details
+          ? 'None'
+          : myItems.items[0]?.name + ', ' + myItems.items[0]?.details
+      "
+      matTooltipPosition="above"
+      matTooltipHideDelay="300"
     >
       <div
         *ngFor="let item of myItems.items; let indexOfElement = index"
@@ -72,14 +80,6 @@
         [class.stock-line-end]="!!item.end"
         [style.left.px]="calcStartPxItem(item)"
         [style.top.px]="-chartLineHeight * indexOfElement"
-        #tooltip="matTooltip"
-        [matTooltip]="
-          !item?.name && !item?.details
-            ? 'None'
-            : item?.name + ', ' + item?.details
-        "
-        matTooltipPosition="above"
-        matTooltipHideDelay="300"
       >
         <div class="stock-name">{{ item.name }}</div>
       </div>

@@ -58,7 +58,6 @@ export class ScDateTimeChartComponent
   ngAfterViewInit(): void {
     this.calcTimeChartValues();
     setTimeout(() => {
-      //console.log('afterViewInit');
       let myPeriods = !this.showDays ? this.periodYears : this.periodMonths;
       myPeriods = myPeriods.filter(
         (myPeriod) => myPeriod.diffNow().seconds <= 0
@@ -73,8 +72,6 @@ export class ScDateTimeChartComponent
       }
       this.calcTimeChartValues();
     }, 1000);
-    //console.log(this.timeChartHeight);
-    //console.log(this.headerLineRef?.nativeElement?.clientHeight);
   }
 
   ngOnInit(): void {

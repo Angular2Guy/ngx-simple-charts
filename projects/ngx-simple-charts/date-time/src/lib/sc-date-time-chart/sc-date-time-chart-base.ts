@@ -42,17 +42,14 @@ export class ScDateTimeChartBase {
         new Date()
       ) as Date;
     //console.log(this.localStart);
+    /*
     const startOfChart = DateTime.fromJSDate(this.localStart)
       .setLocale(this.locale)
       .setZone(Intl.DateTimeFormat().resolvedOptions().timeZone)
       .toJSDate();
+      */
     const myEndOfYear = new Date(new Date().getFullYear(), 11, 31, 23, 59, 59);
     const endOfYear = DateTime.fromJSDate(myEndOfYear)
-      .setLocale(this.locale)
-      .setZone(Intl.DateTimeFormat().resolvedOptions().timeZone)
-      .toJSDate();
-    let myItem = new ChartItem<Event>();
-    myItem.end = DateTime.fromJSDate(new Date(0, 11, 31))
       .setLocale(this.locale)
       .setZone(Intl.DateTimeFormat().resolvedOptions().timeZone)
       .toJSDate();

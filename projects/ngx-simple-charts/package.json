@@ -1,13 +1,13 @@
 {
   "name": "ngx-simple-charts",
-  "version": "18.0.0-alpha.1",
+  "version": "18.0.0-alpha.2",
   "license": "Apache License Version 2.0",
   "peerDependencies": {
-    "@angular/common": "^17.0.0",
-    "@angular/core": "^17.0.0",
-    "@angular/router": "^17.0.0",
-    "@angular/cdk": "^17.0.0",
-    "@angular/material": "^17.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/router": "^18.0.0",
+    "@angular/cdk": "^18.0.0",
+    "@angular/material": "^18.0.0",
     "rxjs": "^7.4.0"
   },
   "dependencies": {

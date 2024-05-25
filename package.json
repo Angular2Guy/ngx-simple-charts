@@ -1,6 +1,6 @@
 {
   "name": "ngx-simple-charts",
-  "version": "17.0.1",
+  "version": "18.0.0-alpha.1",
   "license": "Apache License Version 2.0",
   "scripts": {
     "ng": "ng",
@@ -90,11 +90,11 @@
     "standard-version": "^9.3.1",
     "ts-node": "~8.3.0",
     "typescript": "~5.2.0",
-    "@angular-devkit/build-angular": "^17.0.0",
-    "@angular-eslint/builder": "^v17.0.0",
-    "@angular-eslint/eslint-plugin": "^v17.0.0",
-    "@angular-eslint/eslint-plugin-template": "^v17.0.0",
-    "@angular-eslint/schematics": "^v17.0.0",
-    "@angular-eslint/template-parser": "^v17.0.0"
+    "@angular-devkit/build-angular": "^18.0.0-alpha.1",
+    "@angular-eslint/builder": "^18.0.0-alpha.1",
+    "@angular-eslint/eslint-plugin": "^18.0.0-alpha.1",
+    "@angular-eslint/eslint-plugin-template": "^18.0.0-alpha.1",
+    "@angular-eslint/schematics": "^18.0.0-alpha.1",
+    "@angular-eslint/template-parser": "^18.0.0-alpha.1"
   }
 }

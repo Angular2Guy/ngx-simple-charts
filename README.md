@@ -5,6 +5,8 @@ This is a small chart library for Angular based on D3js. It currently supports s
 ## Minimum Supported Angular Version
 Angular 18
 
+[![CodeQL](https://github.com/Angular2Guy/ngx-simple-charts/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Angular2Guy/ngx-simple-charts/actions/workflows/codeql-analysis.yml)
+
 ## Articles
 * [A scrolling Date/Timeline Chart with Angular Material Components](https://angular2guy.wordpress.com/2023/07/01/a-scrolling-date-timeline-chart-with-angular-material-components/)
 * [Developing and Using Angular Libraries](https://angular2guy.wordpress.com/2021/07/31/developing-and-using-angular-libraries/)

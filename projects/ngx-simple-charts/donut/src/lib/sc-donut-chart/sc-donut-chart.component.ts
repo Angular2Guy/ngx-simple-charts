@@ -43,21 +43,21 @@ interface ResizeEvent {
 }
 
 @Component({
-    selector: 'sc-donut-chart',
-    templateUrl: './sc-donut-chart.component.html',
-    styleUrls: ['./sc-donut-chart.component.scss'],
-    animations: [
-        trigger('fadeInGrow', [
-            transition('* => ready', [
-                style({ opacity: 0, transform: 'scale(0.1)' }),
-                group([
-                    animate('300ms linear', style({ opacity: 1 })),
-                    animate('1000ms linear', style({ transform: 'scale(1)' })),
-                ]),
-            ]),
+  selector: 'sc-donut-chart',
+  templateUrl: './sc-donut-chart.component.html',
+  styleUrls: ['./sc-donut-chart.component.scss'],
+  animations: [
+    trigger('fadeInGrow', [
+      transition('* => ready', [
+        style({ opacity: 0, transform: 'scale(0.1)' }),
+        group([
+          animate('300ms linear', style({ opacity: 1 })),
+          animate('1000ms linear', style({ transform: 'scale(1)' })),
         ]),
-    ],
-    standalone: false
+      ]),
+    ]),
+  ],
+  standalone: false,
 })
 export class ScDonutChartComponent
   implements OnChanges, OnDestroy, AfterViewInit
@@ -76,7 +76,7 @@ export class ScDonutChartComponent
 
   ngAfterViewInit(): void {
     this.d3Svg = select<ContainerElement, ChartSlice>(
-      this.chartContainer.nativeElement
+      this.chartContainer.nativeElement,
     );
 
     this.chartUpdateSubscription = this.chartUpdateSubject
@@ -103,12 +103,12 @@ export class ScDonutChartComponent
 
   private updateChart(): void {
     const contentWidth = isNaN(
-      parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10)
+      parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10),
     )
       ? 0
       : parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10);
     const contentHeight = isNaN(
-      parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10)
+      parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10),
     )
       ? 0
       : parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10);
@@ -127,7 +127,7 @@ export class ScDonutChartComponent
     const colors = ids.map((myId) =>
       !slices[myId]?.color
         ? interpolateSpectral(myId)
-        : (slices[myId].color as string)
+        : (slices[myId].color as string),
     );
     const sliceNames = slices.map((mySlice) => mySlice.name);
     const colorOrdinals = scaleOrdinal(sliceNames, colors);

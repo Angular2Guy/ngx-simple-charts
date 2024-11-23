@@ -39,7 +39,7 @@ export class ScDateTimeChartBase {
       .reduce(
         (acc, myItem) =>
           (myItem as Date).valueOf() < (acc as Date).valueOf() ? myItem : acc,
-        new Date()
+        new Date(),
       ) as Date;
     //console.log(this.localStart);
     /*
@@ -68,8 +68,8 @@ export class ScDateTimeChartBase {
       openEndItems.length > 0 || !this.localShowDays
         ? endOfYear
         : lastEndYear < 1
-        ? endOfYear
-        : lastEndItem.end;
+          ? endOfYear
+          : lastEndItem.end;
     this.periodDays = [];
     for (
       let myDay = DateTime.fromObject({
@@ -95,7 +95,7 @@ export class ScDateTimeChartBase {
     ) {
       this.periodMonths.push(myMonth);
       this.monthHeaderAnchorIds.push(
-        'M_' + this.generateHeaderAnchorId(myMonth)
+        'M_' + this.generateHeaderAnchorId(myMonth),
       );
     }
     this.periodYears = [];

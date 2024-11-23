@@ -59,10 +59,10 @@ class Tuple<A, B> {
 }
 
 @Component({
-    selector: 'sc-bar-chart',
-    templateUrl: './sc-bar-chart.component.html',
-    styleUrls: ['./sc-bar-chart.component.scss'],
-    standalone: false
+  selector: 'sc-bar-chart',
+  templateUrl: './sc-bar-chart.component.html',
+  styleUrls: ['./sc-bar-chart.component.scss'],
+  standalone: false,
 })
 export class ScBarChartComponent
   implements AfterViewInit, OnChanges, OnDestroy
@@ -88,7 +88,7 @@ export class ScBarChartComponent
 
   ngAfterViewInit(): void {
     this.d3Svg = select<ContainerElement, ChartBar>(
-      this.chartContainer.nativeElement
+      this.chartContainer.nativeElement,
     );
 
     this.chartUpdateSubscription = this.chartUpdateSubject
@@ -105,7 +105,7 @@ export class ScBarChartComponent
   private calcBarChartsXScalePosition(
     contentHeight: number,
     minYValue: number,
-    maxYValue: number
+    maxYValue: number,
   ): Tuple<YScalePosition, number> {
     const positivePart =
       maxYValue / (Math.abs(minYValue) + Math.abs(maxYValue));
@@ -113,18 +113,18 @@ export class ScBarChartComponent
       minYValue >= 0 && maxYValue >= 0
         ? new Tuple<YScalePosition, number>(
             YScalePosition.Bottom,
-            contentHeight - this.chartBars.xScaleHeight
+            contentHeight - this.chartBars.xScaleHeight,
           )
         : new Tuple<YScalePosition, number>(
             YScalePosition.Middle,
-            (contentHeight - this.chartBars.xScaleHeight) * positivePart
+            (contentHeight - this.chartBars.xScaleHeight) * positivePart,
           );
     //console.log(xPosition);
     xPosition =
       minYValue <= 0 && maxYValue <= 0
         ? new Tuple<YScalePosition, number>(
             YScalePosition.Top,
-            this.chartBars.xScaleHeight
+            this.chartBars.xScaleHeight,
           )
         : xPosition;
     //console.log(xPosition);
@@ -133,12 +133,12 @@ export class ScBarChartComponent
 
   private updateChart(): void {
     const contentWidth = isNaN(
-      parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10)
+      parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10),
     )
       ? 0
       : parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10);
     const contentHeight = isNaN(
-      parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10)
+      parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10),
     )
       ? 0
       : parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10);
@@ -167,7 +167,7 @@ export class ScBarChartComponent
     const yScalePositionY = this.calcBarChartsXScalePosition(
       contentHeight,
       minYValue,
-      maxYValue
+      maxYValue,
     );
 
     // Add Y axis
@@ -184,31 +184,35 @@ export class ScBarChartComponent
           (yScalePositionY.a === YScalePosition.Top
             ? '' + this.chartBars.xScaleHeight
             : '' + 0) +
-          ')'
+          ')',
       )
       .call(
         axisLeft(yScale as unknown as AxisScale<number>) as (
           selection: Selection<SVGGElement, ChartBar, HTMLElement, any>,
           ...args: any[]
-        ) => void
+        ) => void,
       );
 
     const yScalePosition = this.calcBarChartsXScalePosition(
       contentHeight,
       min(yScale.domain()) || 0,
-      max(yScale.domain()) || 0
+      max(yScale.domain()) || 0,
     );
 
     gxAttribute
       .attr(
         'transform',
-        'translate(' + this.chartBars.yScaleWidth + ',' + yScalePosition.b + ')'
+        'translate(' +
+          this.chartBars.yScaleWidth +
+          ',' +
+          yScalePosition.b +
+          ')',
       )
       .call(
         axisBottom(xScale as unknown as AxisScale<number>) as (
           selection: Selection<SVGGElement, ChartBar, HTMLElement, any>,
           ...args: any[]
-        ) => void
+        ) => void,
       )
       .selectAll('text')
       .attr(
@@ -216,14 +220,14 @@ export class ScBarChartComponent
         yScalePosition.a === YScalePosition.Top
           ? 'translate(-10,-15)rotate(-45)'
           : yScalePosition.a === YScalePosition.Bottom
-          ? 'translate(-10,0)rotate(-45)'
-          : `translate(-10,${
-              contentHeight - yScalePosition.b - this.chartBars.xScaleHeight
-            })rotate(-45)`
+            ? 'translate(-10,0)rotate(-45)'
+            : `translate(-10,${
+                contentHeight - yScalePosition.b - this.chartBars.xScaleHeight
+              })rotate(-45)`,
       )
       .style(
         'text-anchor',
-        yScalePosition.a === YScalePosition.Top ? 'start' : 'end'
+        yScalePosition.a === YScalePosition.Top ? 'start' : 'end',
       );
 
     //console.log(yScale.domain());
@@ -243,7 +247,7 @@ export class ScBarChartComponent
       .join('rect')
       .attr(
         'x',
-        (d) => (xScale(d.x) as unknown as number) + this.chartBars.yScaleWidth
+        (d) => (xScale(d.x) as unknown as number) + this.chartBars.yScaleWidth,
       )
       .attr('width', xScale.bandwidth())
       .attr('height', 0)
@@ -253,8 +257,8 @@ export class ScBarChartComponent
         yScalePosition.a === YScalePosition.Top
           ? this.chartBars.xScaleHeight
           : yScalePosition.a === YScalePosition.Bottom || d.y > 0
-          ? yScale(d.y)
-          : yScalePosition.b
+            ? yScale(d.y)
+            : yScalePosition.b,
       )
       .attr('height', (d) => {
         let result = 0;
@@ -275,7 +279,7 @@ export class ScBarChartComponent
         (d) =>
           'bar bar-' +
           d.x.split(/[^a-zA-Z0-9\-]/)[0].toLowerCase() +
-          `${d.x === this.chartBars.title ? ' bar-portfolio' : ''}`
+          `${d.x === this.chartBars.title ? ' bar-portfolio' : ''}`,
       )
       .delay((d, i) => i * 100);
   }

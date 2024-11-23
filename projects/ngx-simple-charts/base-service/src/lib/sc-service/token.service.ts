@@ -47,7 +47,7 @@ export class TokenService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    @Inject(MODULE_CONFIG) private moduleConfig: SimpleChartsConfig
+    @Inject(MODULE_CONFIG) private moduleConfig: SimpleChartsConfig,
   ) {}
 
   private refreshToken(): Observable<RefreshTokenResponse> {
@@ -116,11 +116,11 @@ export class TokenService {
         takeUntil(myStopTimer),
         switchMap(() => this.refreshToken()),
         retry({ count: 3, delay: 2000, resetOnSuccess: true }),
-        shareReplay(this.CACHE_SIZE)
+        shareReplay(this.CACHE_SIZE),
       );
       this.myTokenSubscription = this.myTokenCache.subscribe(
         (newToken) => (this.myToken = newToken.refreshToken),
-        () => this.clear()
+        () => this.clear(),
       );
     }
   }

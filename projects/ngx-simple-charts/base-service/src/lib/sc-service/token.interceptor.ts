@@ -11,7 +11,13 @@
    limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpErrorResponse,
+} from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { TokenService } from './token.service';
@@ -22,7 +28,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(
     req: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     req = req.clone({
       headers: this.tokenService.createTokenHeader(),
@@ -30,8 +36,8 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       tap(
         (event) => event,
-        (event) => this.handleError(event)
-      )
+        (event) => this.handleError(event),
+      ),
     );
   }
 

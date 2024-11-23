@@ -26,7 +26,7 @@ import { RouterModule } from '@angular/router';
 })
 export class NgxServiceModule {
   static forRoot(
-    config: SimpleChartsConfig
+    config: SimpleChartsConfig,
   ): ModuleWithProviders<NgxServiceModule> {
     return {
       ngModule: NgxServiceModule,

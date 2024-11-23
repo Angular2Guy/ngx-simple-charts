@@ -30,10 +30,10 @@ interface LineKeyToItems {
 }
 
 @Component({
-    selector: 'sc-date-time-chart',
-    templateUrl: './sc-date-time-chart.component.html',
-    styleUrls: ['./sc-date-time-chart.component.scss'],
-    standalone: false
+  selector: 'sc-date-time-chart',
+  templateUrl: './sc-date-time-chart.component.html',
+  styleUrls: ['./sc-date-time-chart.component.scss'],
+  standalone: false,
 })
 export class ScDateTimeChartComponent
   extends ScDateTimeChartBase
@@ -61,14 +61,14 @@ export class ScDateTimeChartComponent
     setTimeout(() => {
       let myPeriods = !this.showDays ? this.periodYears : this.periodMonths;
       myPeriods = myPeriods.filter(
-        (myPeriod) => myPeriod.diffNow().seconds <= 0
+        (myPeriod) => myPeriod.diffNow().seconds <= 0,
       );
       const myPeriodIndex = myPeriods.length === 0 ? -1 : myPeriods.length - 1;
       if (myPeriodIndex >= 0) {
         this.scrollToAnchorId(
           !this.showDays
             ? this.yearHeaderAnchorIds[myPeriodIndex]
-            : this.monthHeaderAnchorIds[myPeriodIndex]
+            : this.monthHeaderAnchorIds[myPeriodIndex],
         );
       }
       this.calcTimeChartValues();
@@ -125,7 +125,7 @@ export class ScDateTimeChartComponent
     });
     const itemInterval = Interval.fromDateTimes(
       chartStart,
-      !!start ? DateTime.fromJSDate(start) : chartStart
+      !!start ? DateTime.fromJSDate(start) : chartStart,
     );
     const itemPeriods = !this.showDays
       ? itemInterval.length('months')
@@ -139,7 +139,7 @@ export class ScDateTimeChartComponent
     const chartEnd = DateTime.fromJSDate(this.end);
     const itemInterval = Interval.fromDateTimes(
       DateTime.fromJSDate(end),
-      chartEnd
+      chartEnd,
     );
     const itemPeriods = !this.showDays
       ? itemInterval.length('months')
@@ -188,8 +188,8 @@ export class ScDateTimeChartComponent
       this.anchoreIdIndex + timeDiff < 0
         ? 0
         : this.anchoreIdIndex + timeDiff >= anchorIds.length
-        ? anchorIds.length - 1
-        : this.anchoreIdIndex + timeDiff;
+          ? anchorIds.length - 1
+          : this.anchoreIdIndex + timeDiff;
     this.scrollToAnchorId(anchorIds[this.anchoreIdIndex]);
   }
 

@@ -46,11 +46,11 @@ interface MultiLineSeries {
 }
 
 @Component({
-    selector: 'sc-line-chart',
-    templateUrl: './sc-line-chart.component.html',
-    styleUrls: ['./sc-line-chart.component.scss'],
-    encapsulation: ViewEncapsulation.Emulated,
-    standalone: false
+  selector: 'sc-line-chart',
+  templateUrl: './sc-line-chart.component.html',
+  styleUrls: ['./sc-line-chart.component.scss'],
+  encapsulation: ViewEncapsulation.Emulated,
+  standalone: false,
 })
 export class ScLineChartComponent
   implements AfterViewInit, OnChanges, OnDestroy
@@ -78,7 +78,7 @@ export class ScLineChartComponent
 
   ngAfterViewInit(): void {
     this.d3Svg = select<ContainerElement, ChartPoint>(
-      this.chartContainer.nativeElement
+      this.chartContainer.nativeElement,
     );
 
     this.gxAttribute = this.d3Svg.append('g');
@@ -112,12 +112,12 @@ export class ScLineChartComponent
 
   private updateChart(): void {
     const contentWidth = isNaN(
-      parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10)
+      parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10),
     )
       ? 0
       : parseInt(this.d3Svg.style('width').replace(/[^0-9\.]+/g, ''), 10);
     const contentHeight = isNaN(
-      parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10)
+      parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10),
     )
       ? 0
       : parseInt(this.d3Svg.style('height').replace(/[^0-9\.]+/g, ''), 10);
@@ -131,7 +131,7 @@ export class ScLineChartComponent
       this.chartPoints[0].chartPointList.length === 0
     ) {
       console.log(
-        `contentHeight: ${contentHeight} contentWidth: ${contentWidth} chartPoints: ${this.chartPoints.length}`
+        `contentHeight: ${contentHeight} contentWidth: ${contentWidth} chartPoints: ${this.chartPoints.length}`,
       );
       return;
     }
@@ -148,9 +148,9 @@ export class ScLineChartComponent
     const xScaleValues = new Set(
       ...this.chartPoints.map((myChartPoint) =>
         myChartPoint.chartPointList.map(
-          (myChartPointElement) => myChartPointElement.x
-        )
-      )
+          (myChartPointElement) => myChartPointElement.x,
+        ),
+      ),
     );
     let xScale:
       | ScaleTime<number, number, never>
@@ -158,7 +158,7 @@ export class ScLineChartComponent
     if (this.chartPoints[0].chartPointList[0].x instanceof Date) {
       xScale = scaleTime()
         .domain(
-          extent(Array.from(xScaleValues), (p) => p as Date) as [Date, Date]
+          extent(Array.from(xScaleValues), (p) => p as Date) as [Date, Date],
         )
         .range([0, contentWidth - this.chartPoints[0].yScaleWidth]);
     } else {
@@ -177,7 +177,10 @@ export class ScLineChartComponent
       }, []);
     const yScale = scaleLinear()
       .domain(
-        extent<ChartPoint, number>(yScaleValues, (p) => p.y) as [number, number]
+        extent<ChartPoint, number>(yScaleValues, (p) => p.y) as [
+          number,
+          number,
+        ],
       )
       .nice()
       .range([contentHeight - this.chartPoints[0].xScaleHeight, 0]);
@@ -190,12 +193,12 @@ export class ScLineChartComponent
       .join('path')
       .attr(
         'transform',
-        'translate(' + this.chartPoints[0].yScaleWidth + ', 0)'
+        'translate(' + this.chartPoints[0].yScaleWidth + ', 0)',
       )
       .style('mix-blend-mode', 'multiply')
       .attr(
         'class',
-        (d) => 'line line-' + d.name.split(/[^a-zA-Z0-9\-]/)[0].toLowerCase()
+        (d) => 'line line-' + d.name.split(/[^a-zA-Z0-9\-]/)[0].toLowerCase(),
       )
       .datum((d) => d.chartPointList);
     // .attr('d', this.createLine(xScale, yScale) as any);
@@ -211,11 +214,11 @@ export class ScLineChartComponent
         'stroke-dasharray',
         (contentWidth - this.chartPoints[0].yScaleWidth) * 100 +
           ' ' +
-          (contentWidth - this.chartPoints[0].yScaleWidth) * 100
+          (contentWidth - this.chartPoints[0].yScaleWidth) * 100,
       )
       .attr(
         'stroke-dashoffset',
-        (contentWidth - this.chartPoints[0].yScaleWidth) * 100
+        (contentWidth - this.chartPoints[0].yScaleWidth) * 100,
       )
       .transition()
       .duration(5000)
@@ -246,7 +249,7 @@ export class ScLineChartComponent
         .text((d) => d.name)
         .attr(
           'class',
-          (d) => 'line line-' + d.name.split(/[^a-zA-Z0-9\-]/)[0].toLowerCase()
+          (d) => 'line line-' + d.name.split(/[^a-zA-Z0-9\-]/)[0].toLowerCase(),
         )
         .attr('text-anchor', 'left')
         .attr('style', 'stroke-width: 1px !important');
@@ -258,7 +261,7 @@ export class ScLineChartComponent
     xScale:
       | ScaleTime<number, number, never>
       | ScaleLinear<number, number, never>,
-    yScale: ScaleLinear<number, number, never>
+    yScale: ScaleLinear<number, number, never>,
   ): void {
     this.gxAttribute
       .attr(
@@ -267,25 +270,25 @@ export class ScLineChartComponent
           this.chartPoints[0].yScaleWidth +
           ',' +
           (contentHeight - this.chartPoints[0].xScaleHeight) +
-          ')'
+          ')',
       )
       .call(
         axisBottom(xScale as unknown as AxisScale<number>) as (
           selection: Selection<SVGGElement, ChartPoint, HTMLElement, any>,
           ...args: any[]
-        ) => void
+        ) => void,
       );
 
     this.gyAttribute
       .attr(
         'transform',
-        'translate(' + this.chartPoints[0].yScaleWidth + ',' + 0 + ')'
+        'translate(' + this.chartPoints[0].yScaleWidth + ',' + 0 + ')',
       )
       .call(
         axisLeft(yScale as unknown as AxisScale<number>) as (
           selection: Selection<SVGGElement, ChartPoint, HTMLElement, any>,
           ...args: any[]
-        ) => void
+        ) => void,
       );
   }
 
@@ -298,8 +301,8 @@ export class ScLineChartComponent
         .domain(
           extent(this.chartPoints[0].chartPointList, (p) => p.x as Date) as [
             Date,
-            Date
-          ]
+            Date,
+          ],
         )
         .range([0, contentWidth - this.chartPoints[0].yScaleWidth]);
     } else {
@@ -315,8 +318,8 @@ export class ScLineChartComponent
       .domain(
         extent<ChartPoint, number>(
           this.chartPoints[0].chartPointList,
-          (p) => p.y
-        ) as [number, number]
+          (p) => p.y,
+        ) as [number, number],
       )
       .nice()
       .range([contentHeight - this.chartPoints[0].xScaleHeight, 0]);
@@ -327,7 +330,7 @@ export class ScLineChartComponent
       .datum(this.chartPoints[0].chartPointList)
       .attr(
         'transform',
-        'translate(' + this.chartPoints[0].yScaleWidth + ', 0)'
+        'translate(' + this.chartPoints[0].yScaleWidth + ', 0)',
       )
       .attr('class', 'line');
     //.attr('d', this.createLine(xScale, yScale) as any);
@@ -341,11 +344,11 @@ export class ScLineChartComponent
         'stroke-dasharray',
         (contentWidth - this.chartPoints[0].yScaleWidth) * 100 +
           ' ' +
-          (contentWidth - this.chartPoints[0].yScaleWidth) * 100
+          (contentWidth - this.chartPoints[0].yScaleWidth) * 100,
       )
       .attr(
         'stroke-dashoffset',
-        (contentWidth - this.chartPoints[0].yScaleWidth) * 100
+        (contentWidth - this.chartPoints[0].yScaleWidth) * 100,
       )
       .transition()
       .duration(5000)
@@ -357,20 +360,20 @@ export class ScLineChartComponent
     xScale:
       | ScaleTime<number, number, never>
       | ScaleLinear<number, number, never>,
-    yScale: ScaleLinear<number, number, never>
+    yScale: ScaleLinear<number, number, never>,
   ): Line<[number, number]> {
     return line()
       .defined(
         (p) =>
           (p as unknown as ChartPoint).y !== null &&
-          !isNaN((p as unknown as ChartPoint).y)
+          !isNaN((p as unknown as ChartPoint).y),
       )
       .x((p, i) =>
         xScale(
           (p as unknown as ChartPoint).x instanceof Date
             ? ((p as unknown as ChartPoint).x as Date)
-            : i
-        )
+            : i,
+        ),
       )
       .y((p) => yScale((p as unknown as ChartPoint).y))
       .curve((p) => curveMonotoneX(p));

@@ -24,7 +24,7 @@
           [id]="monthHeaderAnchorIds[indexOfElement]"
           [style.width.px]="periodMonth.daysInMonth * (DAY_WIDTH + 2) - 2"
         >
-          {{ periodMonth.toJSDate() | date : "MMMM YYYY" }}
+          {{ periodMonth.toJSDate() | date: "MMMM YYYY" }}
         </div>
       </div>
       <div class="header-line">
@@ -34,7 +34,7 @@
           [class.header-sunday]="periodDay.weekday === 7"
           [style.width.px]="DAY_WIDTH"
         >
-          {{ periodDay.toJSDate() | date : "dd" }}
+          {{ periodDay.toJSDate() | date: "dd" }}
         </div>
       </div>
     </ng-container>
@@ -55,7 +55,7 @@
           class="header-box"
           [style.width.px]="MONTH_WIDTH"
         >
-          {{ periodMonth.toJSDate() | date : "MMMM" }}
+          {{ periodMonth.toJSDate() | date: "MMMM" }}
         </div>
       </div>
     </ng-container>

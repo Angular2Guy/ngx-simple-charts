@@ -1,6 +1,6 @@
 {
   "name": "ngx-simple-charts",
-  "version": "18.0.1",
+  "version": "19.0.0-beta.1",
   "license": "Apache License Version 2.0",
   "scripts": {
     "ng": "ng",
@@ -69,9 +69,9 @@
     "@types/d3-scale-chromatic": "^3.0.0",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
-    "@typescript-eslint/eslint-plugin": "^6.11.0",
-    "@typescript-eslint/parser": "^6.11.0",
-    "eslint": "^8.0.0",
+	"@typescript-eslint/parser": "^8.15.0",
+    "@typescript-eslint/eslint-plugin": "^8.15.0",    
+    "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "husky": "^7.0.0",
@@ -95,6 +95,6 @@
     "@angular-eslint/eslint-plugin": "^19.0.0-alpha.1",
     "@angular-eslint/eslint-plugin-template": "^19.0.0-alpha.1",
     "@angular-eslint/schematics": "^19.0.0-alpha.1",
-    "@angular-eslint/template-parser": "^19.0.0-alpha.1"
+    "@angular-eslint/template-parser": "^19.0.0-alpha.1"	
   }
 }

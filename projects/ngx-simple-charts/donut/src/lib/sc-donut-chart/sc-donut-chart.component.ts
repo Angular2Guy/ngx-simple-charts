@@ -43,20 +43,21 @@ interface ResizeEvent {
 }
 
 @Component({
-  selector: 'sc-donut-chart',
-  templateUrl: './sc-donut-chart.component.html',
-  styleUrls: ['./sc-donut-chart.component.scss'],
-  animations: [
-    trigger('fadeInGrow', [
-      transition('* => ready', [
-        style({ opacity: 0, transform: 'scale(0.1)' }),
-        group([
-          animate('300ms linear', style({ opacity: 1 })),
-          animate('1000ms linear', style({ transform: 'scale(1)' })),
+    selector: 'sc-donut-chart',
+    templateUrl: './sc-donut-chart.component.html',
+    styleUrls: ['./sc-donut-chart.component.scss'],
+    animations: [
+        trigger('fadeInGrow', [
+            transition('* => ready', [
+                style({ opacity: 0, transform: 'scale(0.1)' }),
+                group([
+                    animate('300ms linear', style({ opacity: 1 })),
+                    animate('1000ms linear', style({ transform: 'scale(1)' })),
+                ]),
+            ]),
         ]),
-      ]),
-    ]),
-  ],
+    ],
+    standalone: false
 })
 export class ScDonutChartComponent
   implements OnChanges, OnDestroy, AfterViewInit

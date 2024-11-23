@@ -30,9 +30,10 @@ interface LineKeyToItems {
 }
 
 @Component({
-  selector: 'sc-date-time-chart',
-  templateUrl: './sc-date-time-chart.component.html',
-  styleUrls: ['./sc-date-time-chart.component.scss'],
+    selector: 'sc-date-time-chart',
+    templateUrl: './sc-date-time-chart.component.html',
+    styleUrls: ['./sc-date-time-chart.component.scss'],
+    standalone: false
 })
 export class ScDateTimeChartComponent
   extends ScDateTimeChartBase

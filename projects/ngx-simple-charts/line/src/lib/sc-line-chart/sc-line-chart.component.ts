@@ -46,10 +46,11 @@ interface MultiLineSeries {
 }
 
 @Component({
-  selector: 'sc-line-chart',
-  templateUrl: './sc-line-chart.component.html',
-  styleUrls: ['./sc-line-chart.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
+    selector: 'sc-line-chart',
+    templateUrl: './sc-line-chart.component.html',
+    styleUrls: ['./sc-line-chart.component.scss'],
+    encapsulation: ViewEncapsulation.Emulated,
+    standalone: false
 })
 export class ScLineChartComponent
   implements AfterViewInit, OnChanges, OnDestroy

@@ -59,9 +59,10 @@ class Tuple<A, B> {
 }
 
 @Component({
-  selector: 'sc-bar-chart',
-  templateUrl: './sc-bar-chart.component.html',
-  styleUrls: ['./sc-bar-chart.component.scss'],
+    selector: 'sc-bar-chart',
+    templateUrl: './sc-bar-chart.component.html',
+    styleUrls: ['./sc-bar-chart.component.scss'],
+    standalone: false
 })
 export class ScBarChartComponent
   implements AfterViewInit, OnChanges, OnDestroy

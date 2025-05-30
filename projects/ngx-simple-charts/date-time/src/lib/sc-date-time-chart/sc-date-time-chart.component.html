@@ -18,12 +18,16 @@
     ></div>
     @if (showDays) {
       <div class="header-line" #headerLine>
-        @for (periodMonth of periodMonths; track periodMonth; let indexOfElement = $index) {
+        @for (
+          periodMonth of periodMonths;
+          track periodMonth;
+          let indexOfElement = $index
+        ) {
           <div
             class="header-box"
             [id]="monthHeaderAnchorIds[indexOfElement]"
             [style.width.px]="periodMonth.daysInMonth * (DAY_WIDTH + 2) - 2"
-            >
+          >
             {{ periodMonth.toJSDate() | date: "MMMM YYYY" }}
           </div>
         }
@@ -34,7 +38,7 @@
             class="header-box"
             [class.header-sunday]="periodDay.weekday === 7"
             [style.width.px]="DAY_WIDTH"
-            >
+          >
             {{ periodDay.toJSDate() | date: "dd" }}
           </div>
         }
@@ -42,22 +46,23 @@
     }
     @if (!showDays) {
       <div class="header-line" #headerLine>
-        @for (periodYear of periodYears; track periodYear; let indexOfElement = $index) {
+        @for (
+          periodYear of periodYears;
+          track periodYear;
+          let indexOfElement = $index
+        ) {
           <div
             class="header-box"
             [id]="yearHeaderAnchorIds[indexOfElement]"
             [style.width.px]="12 * (MONTH_WIDTH + 2) - 2"
-            >
+          >
             {{ periodYear.toJSDate().getFullYear() }}
           </div>
         }
       </div>
       <div class="header-line">
         @for (periodMonth of periodMonths; track periodMonth) {
-          <div
-            class="header-box"
-            [style.width.px]="MONTH_WIDTH"
-            >
+          <div class="header-box" [style.width.px]="MONTH_WIDTH">
             {{ periodMonth.toJSDate() | date: "MMMM" }}
           </div>
         }
@@ -68,14 +73,14 @@
         class="chart-line"
         [style.height.px]="chartLineHeight"
         #tooltip="matTooltip"
-      [matTooltip]="
-        !myItems.items[0]?.name && !myItems.items[0]?.details
-          ? 'None'
-          : myItems.items[0]?.name + ', ' + myItems.items[0]?.details
-      "
+        [matTooltip]="
+          !myItems.items[0]?.name && !myItems.items[0]?.details
+            ? 'None'
+            : myItems.items[0]?.name + ', ' + myItems.items[0]?.details
+        "
         matTooltipPosition="above"
         matTooltipHideDelay="300"
-        >
+      >
         @for (item of myItems.items; track item; let indexOfElement = $index) {
           <div
             class="stock-line"
@@ -84,7 +89,7 @@
             [class.stock-line-end]="!!item.end"
             [style.left.px]="calcStartPxItem(item)"
             [style.top.px]="-chartLineHeight * indexOfElement"
-            >
+          >
             <div class="stock-name">{{ item.name }}</div>
           </div>
         }

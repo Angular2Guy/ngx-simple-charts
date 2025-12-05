@@ -3,7 +3,7 @@
 This is a small chart library for Angular based on D3js. It currently supports single line and multi line charts with a legend. Bar and Donut charts are now supported too. The token service and token interceptor are now included in a configurable manner. The Bar charts, line charts, donut, and Date/Timeline  charts and the services are in separate entry points to enable the Angular Compiler to  put only the required code in the modules that use the features. Its purpose is to enable fast updates to new Angular versions. To enable the fast updates and due to limited time the library will continue have a small feature set.
 
 ## Minimum Supported Angular Version
-Angular 20
+Angular 21
 
 [![CodeQL](https://github.com/Angular2Guy/ngx-simple-charts/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Angular2Guy/ngx-simple-charts/actions/workflows/codeql-analysis.yml)
 

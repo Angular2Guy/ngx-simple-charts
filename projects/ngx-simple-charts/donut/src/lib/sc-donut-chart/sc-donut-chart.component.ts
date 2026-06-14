@@ -20,6 +20,7 @@ import {
   OnDestroy,
   SimpleChanges,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   trigger,
@@ -57,6 +58,7 @@ interface ResizeEvent {
       ]),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ScDonutChartComponent

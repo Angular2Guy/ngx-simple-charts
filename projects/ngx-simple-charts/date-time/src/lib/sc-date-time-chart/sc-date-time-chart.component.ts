@@ -19,6 +19,7 @@ import {
   LOCALE_ID,
   OnInit,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { DateTime, Interval } from 'luxon';
 import { ChartItem } from './model/chart-item';
@@ -33,6 +34,7 @@ interface LineKeyToItems {
   selector: 'sc-date-time-chart',
   templateUrl: './sc-date-time-chart.component.html',
   styleUrls: ['./sc-date-time-chart.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ScDateTimeChartComponent

@@ -20,6 +20,7 @@ import {
   Component,
   SimpleChanges,
   HostListener,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { max, min } from 'd3-array';
 import { axisBottom, axisLeft, AxisScale } from 'd3-axis';
@@ -62,6 +63,7 @@ class Tuple<A, B> {
   selector: 'sc-bar-chart',
   templateUrl: './sc-bar-chart.component.html',
   styleUrls: ['./sc-bar-chart.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ScBarChartComponent

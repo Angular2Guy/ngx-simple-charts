@@ -22,6 +22,7 @@ import {
   HostListener,
   OnDestroy,
   Output,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { select, Selection, ContainerElement } from 'd3-selection';
 import { scaleLinear, scaleTime, ScaleLinear, ScaleTime } from 'd3-scale';
@@ -50,6 +51,7 @@ interface MultiLineSeries {
   templateUrl: './sc-line-chart.component.html',
   styleUrls: ['./sc-line-chart.component.scss'],
   encapsulation: ViewEncapsulation.Emulated,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ScLineChartComponent

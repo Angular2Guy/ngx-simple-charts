@@ -76,7 +76,9 @@
         [matTooltip]="
           !myItems.items[0]?.name && !myItems.items[0]?.details
             ? 'None'
-            : myItems.items[0]?.name + ', ' + myItems.items[0]?.details
+            : $safeNavigationMigration(myItems.items[0]?.name) +
+              ', ' +
+              $safeNavigationMigration(myItems.items[0]?.details)
         "
         matTooltipPosition="above"
         matTooltipHideDelay="300"

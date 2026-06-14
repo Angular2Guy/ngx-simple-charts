@@ -1,8 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "strict": true,
@@ -17,8 +15,8 @@
     "module": "es2020",
     "paths": {
       "ngx-simple-charts": [
-        "dist/ngx-simple-charts/ngx-simple-charts",
-        "dist/ngx-simple-charts"
+        "./dist/ngx-simple-charts/ngx-simple-charts",
+        "./dist/ngx-simple-charts"
       ]
     },
     "useDefineForClassFields": false
